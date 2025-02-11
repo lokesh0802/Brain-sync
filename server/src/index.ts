@@ -1,5 +1,7 @@
-import express from "express";
-import { UserModel, LinkModel, TagModel, ContentModel } from "./db";
+import express, { Request, Response } from "express";
+// import { Request, Response } from "express-serve-static-core";
+// import { UserModel, LinkModel, TagModel, ContentModel } from "./db";
+import { UserModel } from "./db";
 import mongoose from "mongoose";
 import  jwt  from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -24,55 +26,50 @@ app.get("/", (req, res) => {res.json({ message: "Hello World" });});
 app.post("/api/v1/signup", async (req, res) => {
     const username= req.body.username;
     const password = req.body.password;
+    
     const hashedpassword=await bcrypt.hash(password,10);
-    const user = await UserModel.create({
-        username,
-        password: hashedpassword  // Changed from hashpassword to password
-    });
-    if(user){
-        res.status(200).json({
-            message:"Siguup successfull"
-        })
-    }
-    else{
+    try{
+        const user = await UserModel.create({
+            username,
+            password: hashedpassword // Changed from hashpassword to password
+        });
+        if(user){
+            res.status(200).json({
+                message: "Signup successful"
+            })
+        }
+        else{
+            res.status(400).json({ message: "Signup failed" });
+        }
+
+    }catch(e){
         res.status(400).json({ message: "Signup failed" });
     }
+    
 
 
 });
 
 app.post("/api/v1/signin", async (req, res) => {
-    const username=req.body.username;
-    const password=req.body.password;
-    const user = await UserModel.findOne({ username });
-    if (!user) {
-        return res.status(401).json({ 
-            message: "Invalid credentials" 
+    const username = req.body.username;
+    const password = req.body.password;
+    const user= await UserModel.findOne({ username });
+    if(!user){
+        res.status(400).json({ message: "Signin failed" });
+    }else{
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        const token = jwt.sign({ _id: user._id }, JWT_SECRET);
+        res.status(200).json({
+            message: "Signin successful",
+            token: token
         });
+        
     }
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-        return res.status(401).json({ 
-            message: "Invalid credentials" 
-        });
-    }
-    const token =jwt.sign(username,JWT_SECRET)
-    res.status(200).json({
-        token:token
-    });
+
 })
 
 app.post("/api/v1/content",  async (req, res) => {
-    const {link,type,title,tags} = req.body;
-    const token = req.headers.authorization;
-    const decoded = jwt.verify(token,JWT_SECRET);
-    const contentpush= await ContentModel.create({
-        link,
-        type,
-        title,
-        tags,
-        userId:decoded
-    });
+    
 
     
 })
@@ -95,4 +92,4 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
-}); 
+});
