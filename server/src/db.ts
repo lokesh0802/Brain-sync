@@ -34,3 +34,25 @@ const UserSchema = new Schema({
 });
 
 export const UserModel = mongoose.model('User', UserSchema);
+const contentSchema = new mongoose.Schema({
+    link: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    createdAt: { type: Date, default: Date.now }
+});
+
+export const ContentModel = mongoose.model('Content', contentSchema);
+
+const TagSchema = new Schema({
+    title: { type: String, required: true }
+});
+
+export const TagModel = mongoose.model('Tag', TagSchema);
+
+const LinkSchema = new Schema({
+    hash: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+});
+
+export const LinkModel = mongoose.model('Link', LinkSchema);
