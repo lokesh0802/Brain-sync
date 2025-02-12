@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 const JWT_SECRET = "fnebfu343bi3";
 import { userMiddleware } from "./middleware";
 const app = express();
+app.use(express.json());
 async function connectDatabase() {
     try {
         const database = await mongoose.connect("mongodb+srv://lokesh080502:LoKedatabase@cluster0.1vw3m.mongodb.net/brainly");
@@ -16,7 +17,7 @@ async function connectDatabase() {
 }
  
 connectDatabase();
-app.use(express.json());
+
 
 app.get("/", (req, res) => {res.json({ message: "Hello World" });});
 
@@ -124,11 +125,11 @@ app.delete("/api/v1/content",userMiddleware ,async (req, res) => {
 
 app.get("/api/v1/content", userMiddleware,async (req, res) => {
     try{
+        //@ts-ignore
+        const userId = req.userId;
         const contents = await ContentModel.find({
-            //@ts-ignore
-            userId: req.userId
-        }).sort({ createdAt: -1 }); // Sort by newest first
-
+            userId: userId
+        }).populate("userId", "username");
         if (!contents || contents.length === 0) {
              res.status(404).json({
                 message: "No content found"
