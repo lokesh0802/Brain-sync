@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-// import { Request, Response } from "express-serve-static-core";
 import { UserModel, LinkModel, TagModel, ContentModel } from "./db";
 import mongoose from "mongoose";
 import  jwt  from "jsonwebtoken";
@@ -67,21 +66,7 @@ app.post("/api/v1/signin", async (req, res) => {
 
 })
 
-// app.post("/api/v1/content",  userMiddleware , async (req:Request, res:Response) => {
-//     const link= req.body.link;
-//     const title = req.body.title;
-//     const description = req.body.description;
-//     await ContentModel.create({
-//         link,
-//         title,
-//         description,
-//         // @ts-ignore
-//         user: req.userId
-//     });
-//     res.status(200).json({
-//         message: "Content created successfully"
-//     });
-// })
+
 app.post("/api/v1/content", userMiddleware, async (req: Request, res: Response) => {
     try {
         const { link, title, description} = req.body;
@@ -99,7 +84,7 @@ app.post("/api/v1/content", userMiddleware, async (req: Request, res: Response) 
             description,
 
             // @ts-ignore
-            userId: req.userId // This comes from the middleware
+            userId: req.userId 
         });
 
         res.status(201).json({
@@ -113,19 +98,56 @@ app.post("/api/v1/content", userMiddleware, async (req: Request, res: Response) 
         });
     }
 });
+
+
+app.delete("/api/v1/content",userMiddleware ,async (req, res) => {
+    const conentId=req.body.contentId;
+
+    const userexist=await ContentModel.findOne({
+        _id:conentId,
+        // @ts-ignore
+        userId:req.userId
+    })
+    if(!userexist){
+        res.json({
+            message:"sry no conent to show"
+        })
+    }
+    else{
+        await ContentModel.findByIdAndDelete(conentId);
+        res.json({
+            message:"deleted succefully"
+        })
+    }
+    
+})
+
 app.get("/api/v1/content", userMiddleware,async (req, res) => {
-    //@ts-ignore
-    const content = await ContentModel.find({ userId: req.userId });
-    res.status(200).json({
-        content
-    });
+    try{
+        const contents = await ContentModel.find({
+            //@ts-ignore
+            userId: req.userId
+        }).sort({ createdAt: -1 }); // Sort by newest first
 
+        if (!contents || contents.length === 0) {
+             res.status(404).json({
+                message: "No content found"
+            });
+        }
+
+         res.status(200).json({
+            message: "Content retrieved successfully",
+            contents: contents
+        });
+
+    }catch (e){
+        console.error("Content retrieval error:", e);
+         res.status(500).json({
+            message: "Failed to retrieve content"
+        });
+    }
 })
 
-app.delete("/api/v1/content", async (req, res) => {
-    const contentId = req.body.userId;
-
-})
 
 app.post("/api/v1/brain/share", async (req, res) => {
 

@@ -34,6 +34,7 @@ const UserSchema = new Schema({
 });
 
 export const UserModel = mongoose.model('User', UserSchema);
+
 const contentSchema = new mongoose.Schema({
     link: { type: String, required: true },
     title: { type: String, required: true },
