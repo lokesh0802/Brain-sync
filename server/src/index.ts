@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { UserModel, LinkModel, TagModel, ContentModel } from "./db";
 import mongoose from "mongoose";
 import  jwt  from "jsonwebtoken";
+import {insertData } from "./generate_vector/insertData";
+import { searchDocuments } from "./generate_vector/search_invector";
 import bcrypt from "bcrypt";
 const JWT_SECRET = "fnebfu343bi3";
 import { userMiddleware } from "./middleware";
@@ -87,6 +89,14 @@ app.post("/api/v1/content", userMiddleware, async (req: Request, res: Response) 
             // @ts-ignore
             userId: req.userId 
         });
+        // Insert into Qdrant
+        await insertData({
+            id: content._id.toString(), // Convert MongoDB ObjectId to string
+            title: content.title,
+            link: content.link,
+            description: content.description,
+          });
+      
 
         res.status(201).json({
             message: "Content created successfully",
@@ -99,6 +109,8 @@ app.post("/api/v1/content", userMiddleware, async (req: Request, res: Response) 
         });
     }
 });
+
+
 
 
 app.delete("/api/v1/content",userMiddleware ,async (req, res) => {
