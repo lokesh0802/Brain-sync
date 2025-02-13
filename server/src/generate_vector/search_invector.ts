@@ -10,11 +10,13 @@ export async function searchDocuments(query: string) {
   const queryVector = await generateEmbeddings(query);
   const searchResults = await client.search("test_collection", {
     vector: queryVector,
-    limit: 3,
+    limit: 1,  // Changed to 1 from 3
   });
 
-  console.log("Search results:", searchResults.map((res) => res.payload));
+  // Return only the first result's payload
+  return searchResults[0]?.payload || null;
 }
 
-// Example search
-searchDocuments("Machine learning");
+// // Example search
+// searchDocuments("Machine learning").then(result => console.log("Search result:", result));
+
