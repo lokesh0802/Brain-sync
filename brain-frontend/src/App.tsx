@@ -10,8 +10,8 @@ function App() {
 
   return (
     <>
-    <Button startIcon={<Shareicon size='medium' />} variant='secondary' text='Share'/>
-    <Button startIcon={<Plusicon size='medium'/>} variant='primary'  text='Add Content'/>
+    <Button startIcon={<Shareicon size='medium' />} variant='secondary' size='medium' text='Share'/>
+    <Button startIcon={<Plusicon size='medium'/>} variant='primary' size='small' text='Add Content'/>
 
     
 
