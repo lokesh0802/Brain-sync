@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { UserModel, LinkModel, TagModel, ContentModel } from "./db";
 import mongoose from "mongoose";
-import { analyzeSearchResult } from "../src/sendvector_tomodel/send_data_to_model";
 import  jwt  from "jsonwebtoken";
 import {insertData } from "./generate_vector/insertData";
 import { searchDocuments } from "./generate_vector/search_invector";
@@ -162,25 +161,6 @@ app.get("/api/v1/content", userMiddleware,async (req, res) => {
     }
 })
 
-app.post("/api/v1/search", async (req, res) => {
-    const searchquery = req.body.searchquery;
-    try {
-        const postfind=await searchDocuments(searchquery);
-        const result = await analyzeSearchResult(searchquery);
-        res.status(200).json({
-            message: "Search successful",
-            originalContent: result.originalContent,
-            analysis: result.analysis,
-            searchResult: postfind
-        });
-    } catch (e: any) {
-        console.error("Search error:", e);
-        res.status(500).json({
-            message: "Failed to search content",
-            error: e.message
-        });
-    }
-});
 
 app.post("/api/v1/brain/share", async (req, res) => {
     
