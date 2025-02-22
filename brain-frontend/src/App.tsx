@@ -1,22 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { Button } from './components/ui/Buttons'
-import { Plusicon } from './icons/Plusicon'
-import { Shareicon } from './icons/Shareicon'
+import Loader from './components/Loader/Openproject'
+import LoginandSignup from './components/ui/Login'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Sidebar from './components/ui/Sidebar'
 
 function App() {
-
   return (
-    <>
-    <Button startIcon={<Shareicon size='medium' />} variant='secondary' size='medium' text='Share'/>
-    <Button startIcon={<Plusicon size='medium'/>} variant='primary' size='small' text='Add Content'/>
-
-    
-
-    
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Loader />} />
+        <Route path="/signup" element={<LoginandSignup />} />
+        <Route path="/sidebar" element={<Sidebar />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

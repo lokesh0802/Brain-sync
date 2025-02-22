@@ -9,8 +9,10 @@ import bcrypt from "bcrypt";
 const JWT_SECRET = "fnebfu343bi3";
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
+import cors from "cors";
 const app = express();
 app.use(express.json());
+app.use(cors());
 async function connectDatabase() {
   try {
     const database = await mongoose.connect(
@@ -29,12 +31,14 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/v1/signup", async (req, res) => {
+  const name = req.body.name;
   const username = req.body.username;
   const password = req.body.password;
 
   const hashedpassword = await bcrypt.hash(password, 10);
   try {
     const user = await UserModel.create({
+      name,
       username,
       password: hashedpassword, // Changed from hashpassword to password
     });

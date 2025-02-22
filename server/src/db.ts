@@ -29,6 +29,7 @@ const Schema = mongoose.Schema;
 // export const ContentModel = mongoose.model('Content', Content);
 
 const UserSchema = new Schema({
+    name: { type: String, required: true },
     username: { type: String, required: true ,unique:true},
     password: { type: String, required: true }
 });
