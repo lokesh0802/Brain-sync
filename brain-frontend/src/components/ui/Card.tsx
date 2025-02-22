@@ -1,34 +1,55 @@
-// import React from "react";
+// import React, { useEffect, useRef } from "react";
 // import { Plusicon } from "../../icons/Plusicon";
 // import { Shareicon } from "../../icons/Shareicon";
 // import { Deleteicon } from "../../icons/Deleteicon";
 
 // interface CardProps {
 //     title: string;
-//     type:"youtube" | "tweet";
+//     type: "youtube" | "tweet";
 //     url: string;
 // }
 
 // export function Card(props: CardProps) {
+//   const tweetContainerRef = useRef<HTMLDivElement>(null);
+
+//   useEffect(() => {
+//     if (props.type === "tweet") {
+//       // @ts-ignore
+//       if (window.twttr) {
+//         // @ts-ignore
+//         window.twttr.widgets.load();
+//         // @ts-ignore
+//         window.twttr.events.bind('rendered', function (event) {
+//           if (tweetContainerRef.current) {
+//             const tweetFrame = tweetContainerRef.current.querySelector('iframe');
+//             if (tweetFrame) {
+//               tweetFrame.style.width = '260px';
+//               tweetFrame.style.maxHeight = '300px';
+//               tweetFrame.style.transform = 'scale(0.9)';
+//               tweetFrame.style.transformOrigin = 'top center';
+//             }
+//           }
+//         });
+//       }
+//     }
+//   }, [props.type]);
+
 //   return (
 //     <div>
-//       <div className=" m-2 rounded-3xl h-90 w-72 shadow-2xl border-gray-400 border  ">
-//         <div className="flex  gap-2 p-2 items-center justify-between h-10 w-72 ">
-//           <div className="flex gap-4 pl-2 justify-center items-center text-md ">
+//       <div className={`m-2 rounded-3xl w-72 shadow-2xl border-gray-400 border ${props.type === 'youtube' ? 'h-90 ' : ''}`}>
+//         {/* Header */}
+//         <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
+//           <div className="flex gap-4 pl-2 justify-center items-center text-md">
 //             <div className="text-gray-500"><Plusicon size="medium"/></div>
 //             {props.title}
 //           </div>
 //           <div className="flex gap-4 pr-2 text-gray-500 justify-center items-center">
-//             <div>
-//               <Shareicon size="medium" />
-//             </div>
-//             <div>
-//               <Deleteicon size="medium" />
-//             </div>
+//             <div><Shareicon size="medium" /></div>
+//             <div><Deleteicon size="medium" /></div>
 //           </div>
 //         </div>
-//         {/* add youtube */}
         
+//         {/* YouTube section with full height */}
 //         {props.type === "youtube" && (
 //   <div className="w-72 h-40 pr-2">
 //     <iframe
@@ -45,65 +66,132 @@
 //   </div>
 // )}
 
-//         {/* {add tweet } */}
-
+//         {/* Compact Tweet section */}
 //         {props.type === "tweet" && (
-//           <div className="w-full flex justify-center items-center p-2">
-//             <blockquote className="twitter-tweet">
+//           <div 
+//             ref={tweetContainerRef}
+//             className="w-72 flex justify-center items-start overflow-hidden"
+//           >
+//             <blockquote 
+//               className="twitter-tweet" 
+//               data-theme="light"
+//               data-width="260"
+//               data-dnt="true"
+//               data-cards="hidden"
+//               data-conversation="none"
+//               data-chrome="transparent nofooter"
+//             >
 //               <a href={props.url.replace("x.com", "twitter.com")}></a>
-//             </blockquote> 
-            
+//             </blockquote>
 //           </div>
 //         )}
-        
-
 //       </div>
 //     </div>
 //   );
 // }
-import React, { useEffect, useRef } from "react";
+
+// export default Card;
+// import React, { useEffect } from "react";
+// import { Plusicon } from "../../icons/Plusicon";
+// import { Shareicon } from "../../icons/Shareicon";
+// import { Deleteicon } from "../../icons/Deleteicon";
+
+// interface CardProps {
+//   title: string;
+//   type: "youtube" | "tweet";
+//   url: string;
+//   tweetContent?: string;  // Add tweetContent for direct text display
+// }
+
+// export function Card(props: CardProps) {
+//   useEffect(() => {
+//     // Load Twitter widget script dynamically to render embedded tweets
+//     if (props.type === "tweet") {
+//       const script = document.createElement("script");
+//       script.src = "https://platform.twitter.com/widgets.js";
+//       script.async = true;
+//       document.body.appendChild(script);
+
+//       return () => {
+//         document.body.removeChild(script); // Clean up the script when component unmounts
+//       };
+//     }
+//   }, [props.type]);
+
+//   return (
+//     <div>
+//       <div className={`m-2 rounded-3xl w-72 shadow-2xl border-gray-400 border ${props.type === "youtube" ? "h-90 " : ""}`}>
+//         {/* Header */}
+//         <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
+//           <div className="flex gap-4 pl-2 justify-center items-center text-md">
+//             <div className="text-gray-500"><Plusicon size="medium" /></div>
+//             {props.title}
+//           </div>
+//           <div className="flex gap-4 pr-2 text-gray-500 justify-center items-center">
+//             <div><Shareicon size="medium" /></div>
+//             <div><Deleteicon size="medium" /></div>
+//           </div>
+//         </div>
+
+//         {/* YouTube section with full height */}
+//         {props.type === "youtube" && (
+//           <div className="w-72 h-40 pr-2">
+//             <iframe
+//               className="w-full h-40 pl-1.5"
+//               width="560"
+//               height="315"
+//               src={props.url.replace("watch?v=", "embed/")}
+//               title="YouTube video player"
+//               frameBorder="0"
+//               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+//               referrerPolicy="strict-origin-when-cross-origin"
+//               allowFullScreen
+//             ></iframe>
+//           </div>
+//         )}
+
+//         {/* Tweet section with embedded tweet */}
+//         {props.type === "tweet" && (
+//           <div className="w-72 flex justify-center items-start overflow-hidden p-2">
+//             <blockquote 
+//   className="twitter-tweet"
+//   data-theme="light"
+//   data-width="260"
+//   data-dnt="true"
+//   data-conversation="none"
+//   data-chrome="transparent nofooter"
+// >
+//   <a href={props.url.replace("x.com", "twitter.com")}></a>
+// </blockquote>
+
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Card;
+import React from "react";
 import { Plusicon } from "../../icons/Plusicon";
 import { Shareicon } from "../../icons/Shareicon";
 import { Deleteicon } from "../../icons/Deleteicon";
 
 interface CardProps {
-    title: string;
-    type: "youtube" | "tweet";
-    url: string;
+  title: string;
+  type: "youtube" | "tweet";
+  url: string;
+  tweetContent?: string;  // Add tweetContent for direct text display
 }
 
 export function Card(props: CardProps) {
-  const tweetContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (props.type === "tweet") {
-      // @ts-ignore
-      if (window.twttr) {
-        // @ts-ignore
-        window.twttr.widgets.load();
-        // @ts-ignore
-        window.twttr.events.bind('rendered', function (event) {
-          if (tweetContainerRef.current) {
-            const tweetFrame = tweetContainerRef.current.querySelector('iframe');
-            if (tweetFrame) {
-              tweetFrame.style.width = '260px';
-              tweetFrame.style.maxHeight = '180px';
-              tweetFrame.style.transform = 'scale(0.9)';
-              tweetFrame.style.transformOrigin = 'top center';
-            }
-          }
-        });
-      }
-    }
-  }, [props.type]);
-
   return (
     <div>
-      <div className={`m-2 rounded-3xl w-72 shadow-2xl border-gray-400 border ${props.type === 'youtube' ? 'h-90 ' : ''}`}>
+      <div className={`m-2 rounded-3xl w-72 shadow-2xl min-h-48 border-gray-400 border ${props.type === "youtube" ? "h-90 " : ""}`}>
         {/* Header */}
         <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
           <div className="flex gap-4 pl-2 justify-center items-center text-md">
-            <div className="text-gray-500"><Plusicon size="medium"/></div>
+            <div className="text-gray-500"><Plusicon size="medium" /></div>
             {props.title}
           </div>
           <div className="flex gap-4 pr-2 text-gray-500 justify-center items-center">
@@ -111,36 +199,32 @@ export function Card(props: CardProps) {
             <div><Deleteicon size="medium" /></div>
           </div>
         </div>
-        
+
         {/* YouTube section with full height */}
         {props.type === "youtube" && (
-  <div className="w-72 h-40 pr-2">
-    <iframe
-      className="w-full h-40 pl-1.5"
-      width="560"
-      height="315"
-      src={props.url.replace("watch?v=", "embed/")}
-      title="YouTube video player"
-      frameBorder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerPolicy="strict-origin-when-cross-origin"
-      allowFullScreen
-    ></iframe>
-  </div>
-)}
+          <div className="w-72 h-40 pr-2">
+            <iframe
+              className="w-full h-40 pl-1.5"
+              width="560"
+              height="315"
+              src={props.url.replace("watch?v=", "embed/")}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
+          </div>
+        )}
 
-        {/* Compact Tweet section */}
+        {/* Tweet section with embedded tweet */}
         {props.type === "tweet" && (
-          <div 
-            ref={tweetContainerRef}
-            className="w-72 flex justify-center items-start overflow-hidden"
-          >
+          <div className="w-72 flex justify-center items-start overflow-hidden p-2">
             <blockquote 
-              className="twitter-tweet" 
+              className="twitter-tweet"
               data-theme="light"
               data-width="260"
               data-dnt="true"
-              data-cards="hidden"
               data-conversation="none"
               data-chrome="transparent nofooter"
             >
@@ -154,3 +238,4 @@ export function Card(props: CardProps) {
 }
 
 export default Card;
+
