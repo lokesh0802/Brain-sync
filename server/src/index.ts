@@ -4,9 +4,11 @@ import mongoose from "mongoose";
 import  jwt  from "jsonwebtoken";
 import {insertData } from "./generate_vector/insertData";
 import { searchDocuments } from "./generate_vector/search_invector";
+import { analyzeSearchResult } from "./senddatato_gemini/senddatatogemini";
 import bcrypt from "bcrypt";
 const JWT_SECRET = "fnebfu343bi3";
 import { userMiddleware } from "./middleware";
+import { random } from "./utils";
 const app = express();
 app.use(express.json());
 async function connectDatabase() {
@@ -161,12 +163,93 @@ app.get("/api/v1/content", userMiddleware,async (req, res) => {
     }
 })
 
-
-app.post("/api/v1/brain/share", async (req, res) => {
-    
+app.post("/api/v1/search", async (req, res) => {
+    try {
+        const query = req.body.query;
+        if (!query) {
+            res.status(400).json({
+                message: "Missing search query"
+            });
+        }
+        const searchResults = await searchDocuments(query);
+        const analysis = await analyzeSearchResult(query);
+        
+        res.status(200).json({
+            message: "Search results",
+            searchResults: searchResults, // Full search document
+            analysis: analysis, // Gemini analysis
+        });
+    } catch (error) {
+        console.error("Search error:", error);
+        res.status(500).json({
+            message: "Failed to search"
+        });
+    }
+});
+app.post("/api/v1/brain/share",userMiddleware ,async (req, res) => {
+    const share =req.body.share;
+    if(share){
+        const user = await LinkModel.findOne({
+            // @ts-ignore
+            userId:req.userId
+        })
+        if(user){
+            res.status(400).json({
+                message:"link already exist"
+            })
+            return;
+        }
+        const hash=random(25);
+        LinkModel.create({
+            // @ts-ignore
+            userId:req.userId,
+            hash: hash,
+        })
+        res.json({
+            message:"share link created",
+            link:hash
+        })
+    }else{
+        LinkModel.deleteOne({
+            // @ts-ignore
+            userId:req.userId,
+        })
+    }
+    res.json({
+        message:"share link created"
+    })
 })
 
-app.get("/api/v1/brain/:shareLink", async (req, res) => {
+app.get("/api/v1/brain/:shareLink", async (req: Request, res: Response) => {
+     
+    const hash =req.params.shareLink;
+    const link = await LinkModel.findOne({
+        hash:hash
+    })
+    if(!link){
+        res.status(411).json({
+            message:"no link found"
+        })
+        return;
+    }
+    //userId find
+    const conent=await ContentModel.find({
+        userId:link.userId
+    })
+    const user = await UserModel.findOne({
+        _id: link.userId
+    });
+    if(!user){
+        res.status(411).json({
+            message:"no link found"
+        })
+        return;
+    }
+    res.json({
+        message:"link found",
+        username:user.username,
+        content:conent
+    })
 
 })
 
