@@ -6,7 +6,7 @@ function Sidebar(props: Props) {
     const {} = props
 
     return (
-        <h1>fe</h1>
+        <h1></h1>
     )
 }
 
