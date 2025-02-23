@@ -172,6 +172,10 @@
 // }
 
 // export default Card;
+
+
+
+// -----------------------------
 import React from "react";
 import { Plusicon } from "../../icons/Plusicon";
 import { Shareicon } from "../../icons/Shareicon";
@@ -179,7 +183,7 @@ import { Deleteicon } from "../../icons/Deleteicon";
 
 interface CardProps {
   title: string;
-  type: "youtube" | "tweet";
+  type: "youtube" | "tweet" |string  ;
   url: string;
   tweetContent?: string;  // Add tweetContent for direct text display
 }
@@ -228,7 +232,7 @@ export function Card(props: CardProps) {
               data-conversation="none"
               data-chrome="transparent nofooter"
             >
-              <a href={props.url.replace("x.com", "twitter.com")}></a>
+              <a href={props.url?.replace("x.com", "twitter.com")}></a>
             </blockquote>
           </div>
         )}

@@ -8,10 +8,12 @@ import { AddContent } from '../components/ui/AddContent'
 import Sidebar from '../components/ui/Sidebar'
 import { useContent } from '../hooks/useContent'
 
+
 function Dashboardrender() {
     const [modalopen, setmodalOpen] = useState(false);
     // i will get all cards from the backend and render them here
-    const contents=useContent();
+    const contents: { type: string; title: string; link: string }[] = useContent();
+    console.log(contents)
 
     return (
     <>
@@ -35,8 +37,16 @@ function Dashboardrender() {
         </div>
         <div  className='flex gap-4 '>
 
-        {contents.map(({type,title,url})=><Card type={type} title={title} url={url} />)}
-         
+            {contents.map((content) => (
+                <Card type={content.type} title={content.title} url={content.link} />
+            ))}
+            {/* <Card 
+  type="youtube"
+  title="Sample Video"
+  url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+/> */}
+         {/* <Card type='youtube' title='title' url='https://youtu.be/DrVHDc9OvG4?si=onZxngjZLhry3JhH'/>
+         <Card type='tweet' title='title' url='https://x.com/elonmusk/status/1893237503122907147'/> */}
         </div>
         
 
