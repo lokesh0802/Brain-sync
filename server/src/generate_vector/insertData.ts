@@ -64,7 +64,7 @@ function convertObjectIdToNumber(objectId: string): number {
 /**
  * Inserts a new document into Qdrant without replacing old vectors.
  */
-export async function insertData(newDocument: { id: string; title: string; link: string; description: string }) {
+export async function insertData(newDocument: { id: string; title: string; link: string; description: string; type: string }) {
   try {
     // Ensure a unique numeric ID
     const numericId = convertObjectIdToNumber(newDocument.id);
@@ -82,6 +82,7 @@ export async function insertData(newDocument: { id: string; title: string; link:
             title: newDocument.title,
             link: newDocument.link,
             description: newDocument.description,
+            type: newDocument.type,
           },
         },
       ],

@@ -6,9 +6,12 @@ import { Plusicon } from '../icons/Plusicon'
 import { Shareicon } from '../icons/Shareicon'
 import { AddContent } from '../components/ui/AddContent'
 import Sidebar from '../components/ui/Sidebar'
+import { useContent } from '../hooks/useContent'
 
 function Dashboardrender() {
-    const [modalopen, setmodalOpen] = useState(false)
+    const [modalopen, setmodalOpen] = useState(false);
+    // i will get all cards from the backend and render them here
+    const contents=useContent();
 
     return (
     <>
@@ -32,17 +35,8 @@ function Dashboardrender() {
         </div>
         <div  className='flex gap-4 '>
 
-        <Card 
-            type='tweet' 
-            title='project' 
-            url='https://x.com/elonmusk/status/1892818147834536253' 
-          
-          />
-          <Card 
-            type='youtube' 
-            title='tourt' 
-            url='https://www.youtube.com/watch?v=nvNN_O2tP6Q'
-          />
+        {contents.map(({type,title,url})=><Card type={type} title={title} url={url} />)}
+         
         </div>
         
 

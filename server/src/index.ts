@@ -63,6 +63,7 @@ app.post("/api/v1/signin", async (req, res) => {
   } else {
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     const token = jwt.sign({ _id: user._id }, JWT_SECRET);
+    console.log(token);
     res.status(200).json({
       message: "Signin successful",
       token: token,
@@ -70,15 +71,16 @@ app.post("/api/v1/signin", async (req, res) => {
   }
 });
 
+
 app.post(
   "/api/v1/content",
   userMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const { link, title, description } = req.body;
+      const { link, title, description,type } = req.body;
 
       // Validate required fields
-      if (!link || !title || !description) {
+      if (!link || !title || !description  ) {
         res.status(400).json({
           message: "Missing required fields",
         });
@@ -88,6 +90,8 @@ app.post(
         link,
         title,
         description,
+        type,
+        
 
         // @ts-ignore
         userId: req.userId,
@@ -98,6 +102,7 @@ app.post(
         title: content.title,
         link: content.link,
         description: content.description,
+        type:content.type
       });
 
       res.status(201).json({
