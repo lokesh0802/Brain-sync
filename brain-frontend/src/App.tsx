@@ -1,10 +1,10 @@
 import './App.css'
 import Loader from './components/Loader/Openproject'
-import LoginandSignup from './components/ui/Login'
+import LoginandSignup from './pages/Login'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Sidebar from './components/ui/Sidebar'
-import { Card } from './components/ui/Card'
-import Render from './components/ui/Render'
+
+import Dashboardrender from '../src/pages/Dashboard'
+import { Nopage } from './pages/Nopage'
 
 function App() {
   return (
@@ -14,8 +14,9 @@ function App() {
         <Route path="/signup" element={<LoginandSignup />} />
         <Route 
           path="/sidebar" 
-          element={<Render />} 
+          element={<Dashboardrender />} 
         />
+        <Route path='*' element={<Nopage />} />
       </Routes>
     </BrowserRouter>
   )

@@ -8,7 +8,7 @@ const Loader = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/signup');
-    }, 3000); // 5000ms = 5 seconds
+    }, 2000); // 5000ms = 5 seconds
 
     return () => clearTimeout(timer); // Cleanup timer on unmount
   }, [navigate]);

@@ -187,7 +187,7 @@ interface CardProps {
 export function Card(props: CardProps) {
   return (
     <div>
-      <div className={`m-2 rounded-3xl w-72 shadow-2xl min-h-48 border-gray-400 border ${props.type === "youtube" ? "h-90 " : ""}`}>
+      <div className={`m-2 rounded-3xl w-72 shadow-2xl min-h-48 border-gray-400 bg-white border ${props.type === "youtube" ? "h-90 " : ""}`}>
         {/* Header */}
         <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
           <div className="flex gap-4 pl-2 justify-center items-center text-md">

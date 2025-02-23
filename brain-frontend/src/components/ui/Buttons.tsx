@@ -7,6 +7,7 @@ interface ButtonProps {
     startIcon?: ReactElement;
     endIcon?: ReactElement;
     onClick?: () => void;
+    
      
 }
 const variantStyle = {
@@ -21,8 +22,8 @@ const sizeStyle = {
 }
 
 export const Button =(props:ButtonProps) => {
-    return <button className={`${variantStyle[props.variant]}  ${sizeStyle[props.size]}`} >
-        <div className="flex items-center">
+    return <button onClick={props.onClick} className={`${variantStyle[props.variant]}  ${sizeStyle[props.size]}`} >
+        <div className="flex items-center cursor-pointer">
             {props.startIcon}
             <div className="pl-2 pr-2">
                 {props.text}
