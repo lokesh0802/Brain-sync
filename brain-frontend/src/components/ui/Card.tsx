@@ -176,22 +176,110 @@
 
 
 // -----------------------------
-import React from "react";
+// import React from "react";
+// import { Plusicon } from "../../icons/Plusicon";
+// import { Shareicon } from "../../icons/Shareicon";
+// import { Deleteicon } from "../../icons/Deleteicon";
+
+// interface CardProps {
+//   title: string;
+//   type: "youtube" | "tweet" |string  ;
+//   url: string;
+//   tweetContent?: string;  // Add tweetContent for direct text display
+// }
+
+// export function Card(props: CardProps) {
+//   return (
+//     <div>
+//       <div className={`m-2 rounded-3xl w-72 shadow-2xl min-h-48 border-gray-400 bg-white border ${props.type === "youtube" ? "h-90 " : ""}`}>
+//         {/* Header */}
+//         <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
+//           <div className="flex gap-4 pl-2 justify-center items-center text-md">
+//             <div className="text-gray-500"><Plusicon size="medium" /></div>
+//             {props.title}
+//           </div>
+//           <div className="flex gap-4 pr-2 text-gray-500 justify-center items-center">
+//             <div><Shareicon size="medium" /></div>
+//             <div><Deleteicon size="medium" /></div>
+//           </div>
+//         </div>
+
+//         {/* YouTube section with full height */}
+//         {props.type === "youtube" && (
+//           <div className="w-72 h-40 pr-2">
+//             <iframe
+//               className="w-full h-40 pl-1.5"
+//               width="560"
+//               height="315"
+//               src={props.url.replace("watch?v=", "embed/")}
+//               title="YouTube video player"
+//               frameBorder="0"
+//               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+//               referrerPolicy="strict-origin-when-cross-origin"
+//               allowFullScreen
+//             ></iframe>
+//           </div>
+//         )}
+
+//         {/* Tweet section with embedded tweet */}
+//         {props.type === "tweet" && (
+//           <div className="w-72 flex justify-center items-start overflow-hidden p-2">
+//             <blockquote 
+//               className="twitter-tweet"
+//               data-theme="light"
+//               data-width="260"
+//               data-dnt="true"
+//               data-conversation="none"
+//               data-chrome="transparent nofooter"
+//             >
+//               <a href={props.url?.replace("x.com", "twitter.com")}></a>
+//             </blockquote>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Card;
+
+// ------------------yotube is working-----------------------
+import React, { useEffect } from "react";
 import { Plusicon } from "../../icons/Plusicon";
 import { Shareicon } from "../../icons/Shareicon";
 import { Deleteicon } from "../../icons/Deleteicon";
 
 interface CardProps {
   title: string;
-  type: "youtube" | "tweet" |string  ;
+  type: "youtube" | "tweet";
   url: string;
   tweetContent?: string;  // Add tweetContent for direct text display
 }
 
 export function Card(props: CardProps) {
+  useEffect(() => {
+    // Load Twitter widget script dynamically to render embedded tweets
+    if (props.type === "tweet") {
+      const script = document.createElement("script");
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      return () => {
+        document.body.removeChild(script); // Clean up the script when component unmounts
+      };
+    }
+  }, [props.type]);
+
+  const getYouTubeEmbedUrl = (url: string) => {
+    // Extract the video ID from the YouTube URL
+    const videoId = url.split("youtu.be/")[1]?.split("?")[0] || url.split("v=")[1]?.split("&")[0];
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : '';
+  };
+
   return (
     <div>
-      <div className={`m-2 rounded-3xl w-72 shadow-2xl min-h-48 border-gray-400 bg-white border ${props.type === "youtube" ? "h-90 " : ""}`}>
+      <div className={`m-2 rounded-3xl w-72 shadow-2xl border-gray-400 border ${props.type === "youtube" ? "h-90 " : ""}`}>
         {/* Header */}
         <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
           <div className="flex gap-4 pl-2 justify-center items-center text-md">
@@ -208,14 +296,11 @@ export function Card(props: CardProps) {
         {props.type === "youtube" && (
           <div className="w-72 h-40 pr-2">
             <iframe
-              className="w-full h-40 pl-1.5"
-              width="560"
-              height="315"
-              src={props.url.replace("watch?v=", "embed/")}
+              className="w-full h-full pl-1.5"
+              src={getYouTubeEmbedUrl(props.url)}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             ></iframe>
           </div>
@@ -224,7 +309,7 @@ export function Card(props: CardProps) {
         {/* Tweet section with embedded tweet */}
         {props.type === "tweet" && (
           <div className="w-72 flex justify-center items-start overflow-hidden p-2">
-            <blockquote 
+            <blockquote
               className="twitter-tweet"
               data-theme="light"
               data-width="260"
@@ -232,7 +317,7 @@ export function Card(props: CardProps) {
               data-conversation="none"
               data-chrome="transparent nofooter"
             >
-              <a href={props.url?.replace("x.com", "twitter.com")}></a>
+              <a href={props.url.replace("x.com", "twitter.com")}></a>
             </blockquote>
           </div>
         )}
@@ -242,4 +327,5 @@ export function Card(props: CardProps) {
 }
 
 export default Card;
+
 
