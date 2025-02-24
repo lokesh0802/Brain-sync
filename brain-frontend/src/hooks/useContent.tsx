@@ -17,7 +17,7 @@ export function useContent() {
           },
         });
 
-        console.log(response);
+        // console.log(response);
         setContent(response.data.contents); 
         
 
@@ -29,6 +29,6 @@ export function useContent() {
 
     fetchContent();
   }, []); 
-  console.log(content)
+  // console.log(content)
   return content;
 }

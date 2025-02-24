@@ -1,10 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+interface ContentSearchButtonProps {
+  onClick: () => void;
+}
 
-export const ContentSearchButton = () => {
+export const ContentSearchButton: React.FC<ContentSearchButtonProps> = ({ onClick }) => {
   return (
     <StyledWrapper>
-      <button className="cta">
+      <button className="cta" onClick={onClick}>
+
         <span>Search</span>
         <svg width="20px" height="10px" viewBox="0 0 13 10">
           <path d="M1,5 L11,5" />
@@ -14,6 +18,9 @@ export const ContentSearchButton = () => {
     </StyledWrapper>
   );
 };
+
+
+
 
 const StyledWrapper = styled.div`
   .cta {

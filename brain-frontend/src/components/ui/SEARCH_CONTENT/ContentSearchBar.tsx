@@ -1,13 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-const {useRef} = React;
 
-export const ContentSearchBar = () => {
+interface ContentSearchBarProps {
+  value: string;
+  onChange: (value: string) => void;
+}
 
+export const ContentSearchBar: React.FC<ContentSearchBarProps> = ({ value, onChange }) => {
   return (
     <StyledWrapper>
       <div className="group">
-        <input required type="text" className="input" />
+        <input
+          required
+          type="text"
+          className="input"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
         <span className="highlight" />
         <span className="bar" />
         <label>Enter Data to Search </label>
