@@ -5,5 +5,5 @@ export interface IconProps{
 export const iconsizevariant = {
     "small": "size-2",
     "medium": "size-4",
-    "large": "size-6",
+    "large": "size-8",
 }

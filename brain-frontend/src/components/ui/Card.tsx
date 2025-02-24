@@ -95,7 +95,7 @@ export function Card({ title, type, url }: CardProps) {
   // console.log("Tweet ID:", getTweetId(url)); // Log to check if Tweet ID is extracted
 
   return (
-    <div className="m-2 rounded-3xl w-72 shadow-2xl border-gray-400 border bg-white">
+    <div className="m-2 rounded-3xl w-72 h-90 shadow-2xl border-gray-400 border bg-white">
       <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
         <div className="flex gap-4 pl-2 justify-center items-center text-md">
           <div className="text-gray-500">
