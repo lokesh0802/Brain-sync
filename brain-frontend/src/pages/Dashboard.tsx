@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Card from '../components/ui/Card';
+import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Buttons';
 import { Plusicon } from '../icons/Plusicon';
 import { Shareicon } from '../icons/Shareicon';
@@ -56,7 +56,9 @@ function Dashboardrender() {
               type="tweet"
               title="Elon Tweet"
               url="https://x.com/elonmusk/status/1893237503122907147"
-            /> */}
+            />
+            <Card title="Elon Musk Tweet" type="tweet" url="https://x.com/elonmusk/status/1893237503122907147" /> */}
+
           </div>
         </div>
       </div>

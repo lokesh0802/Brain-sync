@@ -11,7 +11,7 @@ interface AddContentProps {
 }
 enum ContentType {
   YOUTUBE = "youtube",
-  TWITTER = "twitter",
+  TWITTER = "tweet",
 }
 
 export function AddContent({ open, onClose }: AddContentProps) {
@@ -90,7 +90,7 @@ export function AddContent({ open, onClose }: AddContentProps) {
                 onClick={() => setContentType(ContentType.TWITTER)}
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all duration-300
             ${
-              contentType === "twitter"
+              contentType === "tweet"
                 ? "bg-blue-400 text-white shadow-lg scale-105"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
@@ -106,7 +106,7 @@ export function AddContent({ open, onClose }: AddContentProps) {
                 placeholder={
                   contentType === "youtube"
                     ? "YouTube URL"
-                    : contentType === "twitter"
+                    : contentType === "tweet"
                     ? "Tweet URL"
                     : "Link"
                 }
