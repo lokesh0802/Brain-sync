@@ -93,6 +93,8 @@
 //     </div>
 //   );
 // }
+
+
 import { Close } from "../../icons/Close";
 import { ContentSearchBar } from "./SEARCH_CONTENT/ContentSearchBar";
 import { Card } from "./Card";
@@ -107,22 +109,35 @@ interface SearchContentProps {
   opensearch: boolean;
   onsearchclose: () => void;
 }
+interface Content {
+  type: "youtube" | "tweet";
+  title: string;
+  link: string;
+  description?: string;
+  analysis?: string;
+}
+interface SearchContentProps {
+  description?: string;
+  analysis?: string;
+}
 
 export function SearchContent({ opensearch, onsearchclose }: SearchContentProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchcontent, setSearchContent] = useState([]);
+  const [searchcontent, setSearchContent]= useState<Content[]>([]);
+  // const [searchcontent, setSearchContent] = useState<Content | null>(null);
+
   const [contentfound, setContentFound] = useState(false);
   const [aicontentfound, setAicontentFound] = useState(false);
-  const [searchanalysis, setSearchAnalysis] = useState([]);
+  const [searchanalysis, setSearchAnalysis] = useState<SearchContentProps[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
-
+  
     try {
       const token = localStorage.getItem("authorization");
       setLoading(true);
-
+  
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/search`,
         { query: searchQuery },
@@ -132,17 +147,48 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
           },
         }
       );
-      console.log(response.data.analysis);
-      console.log(response.data.searchResults);
-      setSearchAnalysis(response.data.analysis);
-      setSearchContent(response.data.searchResults);
+  
+      // Extract response data
+      const { analysis, searchResults } = response.data;
+  
+      // Convert `searchResults` to an array if it's an object
+      const searchResultsArray = Array.isArray(searchResults)
+        ? searchResults
+        : [searchResults]; // ✅ Ensure it's an array
+
+        // also convert searchanalysis to array
+        const searchAnalysisArray = Array.isArray(analysis)
+        ? analysis
+        : [analysis]; // ✅ Ensure it
+      // Set state variables
+      setSearchAnalysis(searchAnalysisArray);
+
+
+      console.log("Search Analysis Array converted from object:", searchAnalysisArray);
+      setSearchContent(searchResultsArray);
+      if(searchAnalysisArray.length > 0){
+        // console.log(searchAnalysisArray[0].description);
+        console.log(searchAnalysisArray[0].analysis);
+      }
+      
+      console.log("Search Results Array:", searchResultsArray);
+      // debug
+      // if (searchResultsArray.length > 0) {
+      //   console.log(searchResultsArray[0].title); // ✅ "Honey Singh Song"
+      //   console.log(searchResultsArray[0].link);  // ✅ "https://youtu.be/W8x6Dwyj0-A?si=v11a0RL1H6mh_paZ"
+      //   console.log(searchResultsArray[0].description); // ✅ "Honey Singh new songs"
+      //   console.log(searchResultsArray[0].type);  // ✅ "youtube"
+      // }
+  
       setLoading(false);
-      setContentFound(true);
+      setContentFound(searchResultsArray.length > 0);
       setAicontentFound(true);
     } catch (err) {
-      console.error(err);
+      console.error("Search error:", err);
+      setLoading(false);
     }
   };
+  
 
   return (
     <div>
@@ -166,16 +212,19 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
               {contentfound && (
                 <div className="w-full md:w-1/2 flex justify-center">
                   <Card
-                    type="youtube"
-                    title="Sample Video"
-                    url="https://youtu.be/DrVHDc9OvG4?si=onZxngjZLhry3JhH"
-                  />
+  type="youtube"
+  title={searchcontent[0]?.title}
+  url={searchcontent[0]?.link}
+  // description={searchcontent[0]?.description}
+/>
                 </div>
               )}
               {aicontentfound && (
                 <div className="w-full md:w-1/2 border-t md:border-t-0 md:border-l border-gray-300 pt-4 md:pl-4 text-center">
                   <h2 className="text-lg font-semibold mb-2">Extra Data on Internet</h2>
+                  <p>{searchanalysis[0].analysis}</p>
                   <ul className="space-y-2">
+                    
                     <li className="h-4 bg-gray-200 rounded"></li>
                     <li className="h-4 bg-gray-200 rounded"></li>
                     <li className="h-4 bg-gray-200 rounded"></li>

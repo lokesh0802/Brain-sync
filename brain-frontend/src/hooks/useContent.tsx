@@ -1,10 +1,15 @@
 import { BACKEND_URL } from '../config'
 import { useState, useEffect } from "react";
 import axios from "axios";
+interface Content {
+  type: "youtube" | "tweet";
+  title: string;
+  link: string;
+}
 
-
-export function useContent() {
+export function useContent():Content[] {
   const [content, setContent] = useState([]);
+  
 
   useEffect(() => {
     const fetchContent = async () => {
