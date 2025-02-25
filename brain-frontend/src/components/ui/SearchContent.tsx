@@ -63,7 +63,7 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
             ? analysis
             : [analysis]; // ✅ Ensure it
           // Set state variables
-          searchResultsArray[0].type= searchResultsArray[0].type.replace("tweet", "twitter");
+          searchResultsArray[0].type= searchResultsArray[0].type.replace("twitter", "tweet");
           setSearchAnalysis(searchAnalysisArray);
     
     
@@ -96,7 +96,7 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
     <div>
       {opensearch && (
         <div className="fixed inset-0 bg-gray-900 opacity-90 z-50 flex justify-center items-center p-4">
-          <div className="bg-white shadow-2xl p-6  rounded-2xl w-full max-w-3xl flex flex-col items-center transition-all duration-300">
+          <div className="bg-white shadow-2xl p-6 h-auto  rounded-2xl w-full max-w-3xl flex flex-col items-center transition-all duration-300">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4 w-full">
               <ContentSearchBar value={searchQuery} onChange={setSearchQuery} />
               <div className="flex items-center gap-4">
@@ -109,9 +109,9 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full">
               {loading && <div className="flex items-center h-40 justify-center"><SearchLoader /></div>}
               {!loading && contentfound && (
-                <div className="w-full md:w-1/2 flex justify-center">
-                  <Card type={searchcontent[0].type } title={searchcontent[0]?.title} url={searchcontent[0]?.link} />
-                </div>
+                <div className={"w-full md:w-1/2  flex justify-center  "}>
+                <Card type={searchcontent[0].type} title={searchcontent[0]?.title} url={searchcontent[0]?.link} />
+              </div>
               )}
               {!loading && aicontentfound && (
                 <div className="w-full md:w-1/2 h-80 border-t md:border-t-0 md:border-l border-gray-300  md:pl-2 text-center ">

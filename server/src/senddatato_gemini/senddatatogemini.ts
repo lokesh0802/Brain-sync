@@ -45,8 +45,8 @@ const prompt = `Summarize the following content in 2-3 sentences:\n\nDescription
         // Extracting actual text response from Gemini API
         const resultText = response.data?.candidates?.[0]?.content?.parts?.map((part: { text: string }) => part.text).join(' ') || 'No response received';
 
-        // console.log('Search result description:', searchResult.description);
-        // console.log('Gemini Analysis Result:', resultText);
+        console.log('Search result description:', searchResult.description);
+        console.log('Gemini Analysis Result:', resultText);
         return {
             originalDescription: searchResult.description,
             analysis: resultText

@@ -18,7 +18,7 @@ export function AddContent({ open, onClose }: AddContentProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
-  // const [alldata, setAllData] = useState([{}]);
+
   const [contentType, setContentType] = useState(ContentType.YOUTUBE);
 
   const addContent = async () => {
@@ -51,8 +51,6 @@ export function AddContent({ open, onClose }: AddContentProps) {
 
       alert("Content added successfully");
       console.log(response);
-      // setAllData([...alldata, response.data]);
-      // console.log(alldata);
       onClose(); // Close the modal after successful addition
     } catch (error) {
       console.error("Error adding content:", error);
