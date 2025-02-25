@@ -21,6 +21,9 @@ function Dashboardrender() {
   function setvalue(){
     setSearchOpen(true);
   }
+  function sharelink(){
+    
+  }
 
   return (
     <>
@@ -45,6 +48,7 @@ function Dashboardrender() {
               variant="primary"
               size="medium"
               text="Share"
+              onClick={() => console.log('Share')}
               startIcon={<Shareicon size="medium" />}
             />
             <Button

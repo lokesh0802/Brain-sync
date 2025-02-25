@@ -60,7 +60,7 @@ export function AddContent({ open, onClose }: AddContentProps) {
   return (
     <div>
       {open && (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-200 opacity-80 z-50 flex justify-center items-center">
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-900 opacity-90 z-50 flex justify-center items-center">
           <div className="bg-white drop-shadow-xl opacity-100 p-6 rounded-2xl h-auto w-96">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-purple-600">
