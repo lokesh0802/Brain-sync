@@ -21,14 +21,18 @@ export async function analyzeSearchResult(query: string) {
             return;
         }
 
-        const prompt = `Provide an analysis of the following content:
+//         const prompt = `Analyze the following content and provide a structured response:
 
-        Description: ${searchResult.description}
-        
-        Please provide:
-        1. A brief summary of the content
-        2. Key points mentioned
-        3. Any notable aspects`;
+// Description: ${searchResult.description}
+
+// Response format:
+// 1. Brief Summary: Provide a concise summary of the content in 2-3 sentences.
+// 2. Key Points: List the most important points covered in the content.
+// 3. Notable Aspects: Highlight any unique, interesting, or significant aspects of the content.
+// 4. Additional Insights (if applicable): Provide any deeper insights, interpretations, or related information that could enhance understanding.`;
+const prompt = `Summarize the following content in 2-3 sentences:\n\nDescription: ${searchResult.description}`;
+
+
 
         const response = await axios.post(
             `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
