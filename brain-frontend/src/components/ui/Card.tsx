@@ -165,8 +165,8 @@ export function Card({ title, type, url, description }: CardProps) {
   };
 
   return (
-    <div className="m-2 rounded-3xl w-72 h-90 shadow-2xl border-gray-400 border bg-white">
-      <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
+    <div className="m-2 rounded-3xl w-full shadow-2xl border-gray-400 border bg-white">
+      <div className="flex gap-2 p-2 items-center justify-between h-10 w-full">
         <div className="flex gap-4 pl-2 justify-center items-center text-md">
           <div className="text-gray-500">
             <Plusicon size="medium" />
@@ -184,9 +184,9 @@ export function Card({ title, type, url, description }: CardProps) {
       </div>
 
       {type === "youtube" && url && (
-        <div className="w-72 h-40 pr-2">
+        <div className="w-full aspect-video pr-2">
           <iframe
-            className="w-full h-full pl-1.5"
+            className="w-full h-full pl-1.5 rounded-lg"
             src={getYouTubeEmbedUrl(url)}
             title="YouTube video player"
             frameBorder="0"
@@ -197,12 +197,14 @@ export function Card({ title, type, url, description }: CardProps) {
       )}
 
       {type === "tweet" && url && getTweetId(url) && (
-        <TweetEmbed tweetId={getTweetId(url)} />
+        <div className="w-full overflow-hidden">
+          <TweetEmbed tweetId={getTweetId(url)} />
+        </div>
       )}
 
       {description && (
-        <div className="p-2">
-          <p className="text-gray-700">{description}</p>
+        <div className="p-4">
+          <p className="text-gray-700 break-words">{description}</p>
         </div>
       )}
     </div>

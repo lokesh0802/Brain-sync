@@ -34,10 +34,12 @@ const StyledWrapper = styled.div`
    font-size: 16px;
    padding: 10px 10px 10px 5px;
    display: block;
-   width: 200px;
+   width: 100%;
+   min-width: 200px;
    border: none;
    border-bottom: 1px solid #515151;
    background: transparent;
+   transition: all 0.3s ease;
   }
 
   .input:focus {
@@ -66,7 +68,7 @@ const StyledWrapper = styled.div`
   .bar {
    position: relative;
    display: block;
-   width: 200px;
+   width: 100%;
   }
 
   .bar:before, .bar:after {
@@ -97,11 +99,25 @@ const StyledWrapper = styled.div`
   .highlight {
    position: absolute;
    height: 60%;
-   width: 100px;
+   width: 50%;
    top: 25%;
    left: 0;
    pointer-events: none;
    opacity: 0.5;
+  }
+
+  @media (max-width: 640px) {
+    .input {
+      font-size: 14px;
+    }
+    
+    label {
+      font-size: 16px;
+    }
+    
+    .input:focus ~ label, .input:valid ~ label {
+      font-size: 12px;
+    }
   }
 
   .input:focus ~ .highlight {
@@ -118,6 +134,3 @@ const StyledWrapper = styled.div`
     background: transparent;
    }
   }`;
-
-
-

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Buttons';
 import { Plusicon } from '../icons/Plusicon';
@@ -15,6 +15,20 @@ import {SearchContent} from '../components/ui/SearchContent';
 function Dashboardrender() {
   const [modalOpen, setModalOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileView = window.innerWidth < 768;
+      setIsMobile(isMobileView);
+      setSidebarOpen(!isMobileView);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   const contents: { type: "youtube" | "tweet"; title: string; link: string }[] = useContent();
 
   console.log('Contents from useContent:', contents);
@@ -27,16 +41,30 @@ function Dashboardrender() {
 
   return (
     <>
-      <div className="flex">
-        
-        <Sidebar />
-        <div className="p-4 ml-72 min-h-screen bg-[#e3e2e2] flex-1">
+      <div className="flex relative">
+        {isMobile && sidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <div className={`p-4 min-h-screen bg-[#e3e2e2] flex-1 transition-all duration-300
+          ${sidebarOpen ? 'md:ml-72' : 'md:ml-0'}`}>
+          {isMobile && (
+            <button 
+              className="mb-4 p-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              ☰ Menu
+            </button>
+          )}
           <AddContent open={modalOpen} onClose={() => setModalOpen(false)} />
           
           {/* Buttons */}
-          <div className="flex gap-4 p-4 justify-between">
-          <div className='font-bold text-3xl '>All Notes</div>
-          <div className="flex gap-4">
+          <div className="flex flex-col md:flex-row gap-4 p-4 justify-between">
+            <div className='font-bold text-3xl'>All Notes</div>
+            <div className="flex flex-col sm:flex-row gap-4">
           <StyledWrapper>
             <div className="search">
             <input placeholder="Search..." type="text"  />
@@ -64,7 +92,7 @@ function Dashboardrender() {
           </div>
 
           {/* Content Grid */}
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {contents.map((content, index) => (
               <Card
                 key={index}
@@ -98,11 +126,23 @@ const StyledWrapper = styled.div`
   }
 
   .search input[type="text"] {
-    width: 200px;
+    width: 100%;
+    min-width: 200px;
+    max-width: 400px;
     padding: 10px;
     border: none;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 640px) {
+    .search {
+      width: 100%;
+    }
+    .search input[type="text"] {
+      width: 100%;
+      max-width: none;
+    }
   }
 
   .search button[type="submit"] {
@@ -114,9 +154,10 @@ const StyledWrapper = styled.div`
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: absolute;
-    top: 0;
+    top: 50%;
     right: 0;
-    transition: .9s ease;
+    transform: translateY(-50%);
+    transition: .3s ease;
   }
 
   .search button[type="submit"]:hover {
