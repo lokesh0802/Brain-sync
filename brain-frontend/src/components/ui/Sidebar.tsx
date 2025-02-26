@@ -7,9 +7,16 @@ import Brainicon from '../../icons/Brainicon'
 interface Props {
     isOpen: boolean;
     onClose: () => void;
+    onTypeSelect?: (type: "youtube" | "tweet" | "project" | "all") => void;
 }
 
-function Sidebar({ isOpen, onClose }: Props) {
+function Sidebar({ isOpen, onClose, onTypeSelect }: Props) {
+    const [selectedType, setSelectedType] = useState<"youtube" | "tweet" | "project" | "all">("all");
+
+    const handleTypeSelect = (type: "youtube" | "tweet" | "project" | "all") => {
+        setSelectedType(type);
+        onTypeSelect?.(type);
+    };
     return (
         <div className={`h-screen bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 fixed left-0 top-0 transition-transform duration-300
             ${isOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -29,10 +36,31 @@ function Sidebar({ isOpen, onClose }: Props) {
                 </span>
             </div>
             <div className='flex flex-col p-4 mt-4 justify-center gap-4'>
-                <Sidebaritems text='Twitter' icon={<Twitter />}/>
-                <Sidebaritems text='Youtube' icon={<Yotube />}/>
-                {/* <Sidebaritems text='Instagram' icon={<Brainicon />}/> */}
-                </div>
+                <Sidebaritems 
+                    text='All' 
+                    icon={<Brainicon width="24px" height="24px" />}
+                    onClick={() => handleTypeSelect("all")}
+                    isSelected={selectedType === "all"}
+                />
+                <Sidebaritems 
+                    text='Twitter' 
+                    icon={<Twitter />}
+                    onClick={() => handleTypeSelect("tweet")}
+                    isSelected={selectedType === "tweet"}
+                />
+                <Sidebaritems 
+                    text='Youtube' 
+                    icon={<Yotube />}
+                    onClick={() => handleTypeSelect("youtube")}
+                    isSelected={selectedType === "youtube"}
+                />
+                <Sidebaritems 
+                    text='Projects' 
+                    icon={<Brainicon width="24px" height="24px" />}
+                    onClick={() => handleTypeSelect("project")}
+                    isSelected={selectedType === "project"}
+                />
+            </div>
 
         </div>
     )

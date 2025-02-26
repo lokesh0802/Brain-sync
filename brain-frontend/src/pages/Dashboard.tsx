@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Buttons';
 import { Plusicon } from '../icons/Plusicon';
-import { Shareicon } from '../icons/Shareicon';
+// import { Shareicon } from '../icons/Shareicon';
 import { AddContent } from '../components/ui/AddContent';
 import Sidebar from '../components/ui/Sidebar';
-import axios from 'axios';
-import { useContent } from '../hooks/useContent';
-import { BACKEND_URL } from '../config';
 
-import copy from 'copy-to-clipboard';
+import { useContent } from '../hooks/useContent';
+
+
 import styled from 'styled-components';
 import {SearchContent} from '../components/ui/SearchContent';
 
@@ -19,6 +18,7 @@ function Dashboardrender() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedType, setSelectedType] = useState<"youtube" | "tweet" | "project" | "all">("all");
 
   useEffect(() => {
     const checkMobile = () => {
@@ -32,7 +32,7 @@ function Dashboardrender() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  const contents: { type: "youtube" | "tweet"; title: string; link: string; description: string }[] = useContent();
+  const contents: { type: "youtube" | "tweet" | "project"; title: string; link?: string; description: string; icon?: React.ReactNode }[] = useContent();
 
   console.log('Contents from useContent:', contents);
   function setvalue(){
@@ -49,7 +49,11 @@ function Dashboardrender() {
             onClick={() => setSidebarOpen(false)}
           />
         )}
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+          <Sidebar 
+            isOpen={sidebarOpen} 
+            onClose={() => setSidebarOpen(false)} 
+            onTypeSelect={setSelectedType}
+          />
         <div className={`p-4 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex-1 transition-all duration-300
           ${sidebarOpen ? 'md:ml-72' : 'md:ml-0'}`}>
           {isMobile && (
@@ -107,7 +111,9 @@ function Dashboardrender() {
 
           {/* Content Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {contents.map((content, index) => (
+            {contents
+              .filter(content => selectedType === "all" || content.type === selectedType)
+              .map((content, index) => (
               <Card
                 key={index}
                 type={content.type}

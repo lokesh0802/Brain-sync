@@ -37,10 +37,10 @@ const UserSchema = new Schema({
 export const UserModel = mongoose.model('User', UserSchema);
 
 const contentSchema = new mongoose.Schema({
-    link: { type: String, required: true },
+    link: { type: String, required: false}, // Made link optional
     title: { type: String, required: true },
     description: { type: String, required: true },
-    type: { type: String,required:true },
+    type: { type: String, enum: ['youtube', 'tweet', 'project'], required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     createdAt: { type: Date, default: Date.now }
 });

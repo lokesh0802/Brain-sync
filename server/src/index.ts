@@ -378,12 +378,20 @@ app.post(
   userMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const { link, title, description,type } = req.body;
+      const { link, title, description, type } = req.body;
 
       // Validate required fields
-      if (!link || !title || !description) {
+      if (!title || !description) {
         res.status(400).json({
-          message: "Missing required fields",
+          message: "Title and description are required",
+        });
+        return;
+      }
+
+      // Validate link for non-project types
+      if (type !== "project" && !link) {
+        res.status(400).json({
+          message: "Link is required for YouTube and Twitter content",
         });
         return;
       }
@@ -402,9 +410,9 @@ app.post(
       await insertData({
         id: content._id.toString(), // Convert MongoDB ObjectId to string
         title: content.title,
-        link: content.link,
+        link: content.link || "", // Set empty string as default if link is undefined
         description: content.description,
-        type:content.type
+        type: content.type
       });
 
       res.status(201).json({

@@ -12,11 +12,12 @@ interface SearchContentProps {
   onsearchclose: () => void;
 }
 interface Content {
-  type: "youtube" | "tweet";
+  type: "youtube" | "tweet" | "project";
   title: string;
-  link: string;
+  link?: string;
   description?: string;
   analysis?: string;
+  icon?: React.ReactNode;
 }
 interface SearchContentProps {
   description?: string;
@@ -64,7 +65,12 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
             ? analysis
             : [analysis]; // ✅ Ensure it
           // Set state variables
-          searchResultsArray[0].type= searchResultsArray[0].type.replace("twitter", "tweet");
+          // Handle type conversions
+          searchResultsArray.forEach(result => {
+            if (result.type === "twitter") {
+              result.type = "tweet";
+            }
+          });
           setSearchAnalysis(searchAnalysisArray);
     
     
@@ -120,11 +126,16 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full">
               {loading && <div className="flex items-center h-40 justify-center"><SearchLoader /></div>}
               {!loading && contentfound && (
-                <div className="w-full md:w-1/2 flex justify-center p-2">
-                  <Card type={searchcontent[0].type} title={searchcontent[0]?.title} url={searchcontent[0]?.link} />
+                <div className={`w-full ${searchcontent[0].type === 'project' ? 'md:w-full' : 'md:w-1/2'} flex justify-center p-2`}>
+                  <Card 
+                    type={searchcontent[0].type} 
+                    title={searchcontent[0]?.title} 
+                    url={searchcontent[0]?.link}
+                    description={searchcontent[0]?.description} 
+                  />
                 </div>
               )}
-              {!loading && aicontentfound && (
+              {!loading && aicontentfound && searchcontent[0]?.type !== 'project' && (
                 <div className="w-full md:w-1/2 max-h-[450px] border-t md:border-t-0 md:border-l border-gray-200 md:pl-6 mt-4 md:mt-0 pt-4 md:pt-0">
                   <h2 className="text-lg font-semibold mb-3 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                     Extra Data on Internet

@@ -9,15 +9,17 @@ interface AddContentProps {
   open: boolean;
   onClose: () => void;
 }
+
 enum ContentType {
   YOUTUBE = "youtube",
   TWITTER = "tweet",
+  PROJECT = "project"
 }
 
 export function AddContent({ open, onClose }: AddContentProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const [contentType, setContentType] = useState(ContentType.YOUTUBE);
 
@@ -32,13 +34,11 @@ export function AddContent({ open, onClose }: AddContentProps) {
         throw new Error("No authorization token found");
       }
 
-      // console.log(token);
-      // console.log({type:contentType})
       const response = await axios.post(
         BACKEND_URL + "/api/v1/content",
         {
           title: titleadd,
-          link: linkadd,
+          link: contentType === "project" ? undefined : linkadd,
           description: descriptionadd,
           type: contentType,
         },
@@ -48,16 +48,16 @@ export function AddContent({ open, onClose }: AddContentProps) {
           },
         }
       );
-      onClose();
+      // onClose();
 
       alert("Content added successfully");
       console.log(response);
-      onClose(); // Close the modal after successful addition
+      onClose();
     } catch (error) {
       console.error("Error adding content:", error);
-      // alert("Failed to add content. Please try again.");
     }
   };
+
   return (
     <div>
       {open && (
@@ -77,40 +77,74 @@ export function AddContent({ open, onClose }: AddContentProps) {
               <button
                 onClick={() => setContentType(ContentType.YOUTUBE)}
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all duration-300
-            ${
-              contentType === "youtube"
-                ? "bg-red-500 text-white shadow-lg scale-105"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+                  ${
+                    contentType === "youtube"
+                      ? "bg-red-500 text-white shadow-lg scale-105"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 YouTube
               </button>
               <button
                 onClick={() => setContentType(ContentType.TWITTER)}
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all duration-300
-            ${
-              contentType === "tweet"
-                ? "bg-blue-400 text-white shadow-lg scale-105"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+                  ${
+                    contentType === "tweet"
+                      ? "bg-blue-400 text-white shadow-lg scale-105"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 Twitter
+              </button>
+              <button
+                onClick={() => setContentType(ContentType.PROJECT)}
+                className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all duration-300
+                  ${
+                    contentType === "project"
+                      ? "bg-purple-500 text-white shadow-lg scale-105"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+              >
+                Project
               </button>
             </div>
 
             <div className="flex gap-4 flex-col justify-center w-full">
-              <Input ref={titleRef} placeholder={"Title"} />
-              <Input
-                ref={linkRef}
-                placeholder={
-                  contentType === "youtube"
-                    ? "YouTube URL"
-                    : contentType === "tweet"
-                    ? "Tweet URL"
-                    : "Link"
-                }
+              <input
+                ref={titleRef}
+                placeholder="Title"
+                className="text-black border-2 w-full border-purple-400 rounded-lg py-2 px-4
+                  bg-transparent focus:outline-none focus:ring-2 focus:ring-purple-600
+                  transition-all duration-300"
               />
-              <Input ref={descriptionRef} placeholder={"Description"} />
+              
+              {contentType !== "project" && (
+                <input
+                  ref={linkRef}
+                  placeholder={contentType === "youtube" ? "YouTube URL" : "Tweet URL"}
+                  className="text-black border-2 w-full border-purple-400 rounded-lg py-2 px-4
+                    bg-transparent focus:outline-none focus:ring-2 focus:ring-purple-600
+                    transition-all duration-300"
+                />
+              )}
+              
+              {contentType === "project" ? (
+                <textarea
+                  ref={descriptionRef}
+                  placeholder="Project Description"
+                  className="text-black border-2 w-full border-purple-400 rounded-lg py-2 px-4
+                    bg-transparent focus:outline-none focus:ring-2 focus:ring-purple-600
+                    transition-all duration-300 h-32 resize-none"
+                />
+              ) : (
+                <input
+                  ref={descriptionRef as any}
+                  placeholder="Description"
+                  className="text-black border-2 w-full border-purple-400 rounded-lg py-2 px-4
+                    bg-transparent focus:outline-none focus:ring-2 focus:ring-purple-600
+                    transition-all duration-300"
+                />
+              )}
             </div>
 
             <div className="flex pt-4 gap-3 justify-end">
@@ -133,68 +167,3 @@ export function AddContent({ open, onClose }: AddContentProps) {
     </div>
   );
 }
-
-// Update Input component with better TypeScript support
-interface InputProps {
-  placeholder: string;
-  ref: React.RefObject<HTMLInputElement | null>;
-  type?: string;
-}
-
-function Input({ placeholder, ref, type = "text" }: InputProps) {
-  return (
-    <input
-      placeholder={placeholder}
-      ref={ref}
-      type={type}
-      className="text-black border-2 w-full border-purple-400 rounded-lg py-2 px-4
-  bg-transparent focus:outline-none focus:ring-2 focus:ring-purple-600
-  transition-all duration-300"
-    />
-  );
-}
-
-
-
-//     <div>
-//       {open && (
-//         <div className="fixed top-0 left-0 w-full h-full bg-gray-200 opacity-80 z-50 flex justify-center items-center">
-//           <div className="bg-white drop-shadow-xl opacity-100 p-4 rounded-2xl h-80 w-70">
-//             <div className="flex justify-end">
-//                 <div onClick={onClose} className="cursor-pointer">
-//               <Close size="medium"    />
-//               </div>
-//             </div>
-//             <div className="flex gap-4 flex-col justify-center w-full pt-4">
-//                 <Input ref={titleRef} placeholder={'Title'} />
-//                 <Input ref={linkRef} placeholder={'Link'} />
-//                 <Input ref={descriptionRef} placeholder={'Description'} />
-//             </div>
-            
-//             <div className="flex pt-2 justify-end">
-//             <Button 
-//             onClick={addContent}
-//                 variant='secondary' 
-//                 size='medium' 
-//                 text='Submit' />
-
-//             </div>
-            
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// function Input(props: any) {
-//     return (
-//         <input
-//         placeholder={props.placeholder}
-//         ref={props.ref}
-//         name="text"
-//         type={props.type}
-//         className="text-black border-2 w-full border-purple-400 rounded-lg py-2 pt-1 px-6 bg-transparent  focus:outline-none focus:ring-2 focus:ring-purple-600"
-//         />
-//     );
-// }

@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 interface Content {
-  type: "youtube" | "tweet";
+  type: "youtube" | "tweet" | "project";
   title: string;
-  link: string;
+  link?: string;
   description: string;
+  icon?: React.ReactNode;
 }
 
 export function useContent():Content[] {
