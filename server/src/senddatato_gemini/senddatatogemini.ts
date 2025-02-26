@@ -34,13 +34,21 @@ const prompt = `Summarize the following content in 2-3 sentences:\n\nDescription
 
 
 
+        // const response = await axios.post(
+        //     `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+        //     {
+        //         contents: [{ parts: [{ text: prompt }] }]
+        //     },
+        //     { headers: { 'Content-Type': 'application/json' } }
+        // );
         const response = await axios.post(
-            `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+            `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`,
             {
                 contents: [{ parts: [{ text: prompt }] }]
             },
             { headers: { 'Content-Type': 'application/json' } }
         );
+        
 
         // Extracting actual text response from Gemini API
         const resultText = response.data?.candidates?.[0]?.content?.parts?.map((part: { text: string }) => part.text).join(' ') || 'No response received';
