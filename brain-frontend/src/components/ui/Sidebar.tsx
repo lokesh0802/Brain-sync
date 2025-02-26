@@ -3,6 +3,7 @@ import { Twitter } from '../../icons/Twitter'
 import { Sidebaritems } from './Sidebaritems'
 import Yotube from '../../icons/Yotube'
 import Brainicon from '../../icons/Brainicon'
+import { Document } from '../../icons/Document'
 
 interface Props {
     isOpen: boolean;
@@ -56,7 +57,7 @@ function Sidebar({ isOpen, onClose, onTypeSelect }: Props) {
                 />
                 <Sidebaritems 
                     text='Projects' 
-                    icon={<Brainicon width="24px" height="24px" />}
+                    icon={<Document size="large" />}
                     onClick={() => handleTypeSelect("project")}
                     isSelected={selectedType === "project"}
                 />

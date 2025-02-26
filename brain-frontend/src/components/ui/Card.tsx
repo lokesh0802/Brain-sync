@@ -6,6 +6,7 @@ import { Deleteicon } from "../../icons/Deleteicon";
 import Yotube from "../../icons/Yotube";
 import { Twitter } from "../../icons/Twitter";
 import Brainicon from "../../icons/Brainicon";
+import {Document} from "../../icons/Document";
 
 interface CardProps {
   title: string;
@@ -35,7 +36,7 @@ export function Card({ title, type, url, description, icon }: CardProps) {
       <div className="flex gap-2 p-3 items-center justify-between border-b border-gray-50">
         <div className="flex gap-3 items-center text-md">
           {type === "project" ? (
-            icon || <Brainicon width="24px" height="24px" />
+            icon || <Document size="medium"   />
           ) : type === "youtube" ? (
             <Yotube />
           ) : (
