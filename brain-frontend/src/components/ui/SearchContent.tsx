@@ -49,6 +49,7 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
               },
             }
           );
+         
       
           // Extract response data
           const { analysis, searchResults } = response.data;

@@ -5,9 +5,11 @@ import { Plusicon } from '../icons/Plusicon';
 import { Shareicon } from '../icons/Shareicon';
 import { AddContent } from '../components/ui/AddContent';
 import Sidebar from '../components/ui/Sidebar';
+import axios from 'axios';
 import { useContent } from '../hooks/useContent';
+import { BACKEND_URL } from '../config';
 
-
+import copy from 'copy-to-clipboard';
 import styled from 'styled-components';
 import {SearchContent} from '../components/ui/SearchContent';
 
@@ -36,9 +38,7 @@ function Dashboardrender() {
   function setvalue(){
     setSearchOpen(true);
   }
-  function sharelink(){
-    
-  }
+
 
   return (
     <>
@@ -73,13 +73,26 @@ function Dashboardrender() {
           </div>
           </StyledWrapper>
           <SearchContent opensearch={searchOpen} onsearchclose={() => setSearchOpen(false)} />
-          <Button
+          {/* <Button
               variant="primary"
               size="medium"
               text="Share"
-              onClick={() => console.log('Share')}
+              onClick={() => async()=>{
+                console.log("share")
+                const response=await axios.post("http://localhost:3000/api/v1/brain/share", {
+                  share:"true"
+                },{
+                  headers:{
+                    "Authorization":localStorage.getItem("authorization")
+                  }
+                });
+                const shareurl= `http://localhost:5173/share/${response.data.hash}`;
+                alert(shareurl);
+                copy(shareurl);
+
+              }}
               startIcon={<Shareicon size="medium" />}
-            />
+            /> */}
             <Button
               variant="secondary"
               size="medium"

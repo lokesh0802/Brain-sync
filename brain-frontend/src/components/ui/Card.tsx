@@ -3,6 +3,8 @@ import TweetEmbed from "react-tweet-embed";
 import { Plusicon } from "../../icons/Plusicon";
 import { Shareicon } from "../../icons/Shareicon";
 import { Deleteicon } from "../../icons/Deleteicon";
+import Yotube from "../../icons/Yotube";
+import { Twitter } from "../../icons/Twitter";
 
 interface CardProps {
   title: string;
@@ -30,15 +32,22 @@ export function Card({ title, type, url, description }: CardProps) {
     <div className="m-2 rounded-2xl w-full bg-white shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden hover:border-indigo-100">
       <div className="flex gap-2 p-3 items-center justify-between border-b border-gray-50">
         <div className="flex gap-3 items-center text-md">
+          {
+            type === "youtube" ? (
+              <Yotube  />
+            ) : (
+              <Twitter />
+            )
+          }
           <div className="text-indigo-500 hover:text-indigo-600 transition-colors cursor-pointer">
             <Plusicon size="medium" />
           </div>
           <span className="font-medium text-gray-700">{title}</span>
         </div>
         <div className="flex gap-3 text-gray-400">
-          <div className="hover:text-indigo-500 transition-colors cursor-pointer">
+          {/* <div className="hover:text-indigo-500 transition-colors cursor-pointer">
             <Shareicon size="medium" />
-          </div>
+          </div> */}
           <div className="hover:text-red-500 transition-colors cursor-pointer">
             <Deleteicon size="medium" />
           </div>
@@ -55,6 +64,7 @@ export function Card({ title, type, url, description }: CardProps) {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           ></iframe>
+
           
         </div>
       )}

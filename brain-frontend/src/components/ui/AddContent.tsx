@@ -48,13 +48,14 @@ export function AddContent({ open, onClose }: AddContentProps) {
           },
         }
       );
+      onClose();
 
       alert("Content added successfully");
       console.log(response);
       onClose(); // Close the modal after successful addition
     } catch (error) {
       console.error("Error adding content:", error);
-      alert("Failed to add content. Please try again.");
+      // alert("Failed to add content. Please try again.");
     }
   };
   return (
