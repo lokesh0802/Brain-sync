@@ -27,83 +27,89 @@ export const ContentSearchBar: React.FC<ContentSearchBarProps> = ({ value, onCha
 
 const StyledWrapper = styled.div`
   .group {
-   position: relative;
+    position: relative;
   }
 
   .input {
-   font-size: 16px;
-   padding: 10px 10px 10px 5px;
-   display: block;
-   width: 100%;
-   min-width: 200px;
-   border: none;
-   border-bottom: 1px solid #515151;
-   background: transparent;
-   transition: all 0.3s ease;
+    font-size: 16px;
+    padding: 12px 12px 12px 5px;
+    display: block;
+    width: 100%;
+    min-width: 200px;
+    border: none;
+    border-bottom: 2px solid #e5e7eb;
+    background: transparent;
+    transition: all 0.3s ease;
+    color: #374151;
   }
 
   .input:focus {
-   outline: none;
+    outline: none;
+    border-image: linear-gradient(to right, #6366f1, #a855f7);
+    border-image-slice: 1;
   }
 
   label {
-   color: #999;
-   font-size: 18px;
-   font-weight: normal;
-   position: absolute;
-   pointer-events: none;
-   left: 5px;
-   top: 10px;
-   transition: 0.2s ease all;
-   -moz-transition: 0.2s ease all;
-   -webkit-transition: 0.2s ease all;
+    color: #9ca3af;
+    font-size: 16px;
+    font-weight: 500;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 12px;
+    transition: 0.2s ease all;
   }
 
   .input:focus ~ label, .input:valid ~ label {
-   top: -20px;
-   font-size: 14px;
-   color: purple;
+    top: -20px;
+    font-size: 14px;
+    background: linear-gradient(to right, #6366f1, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
   }
 
   .bar {
-   position: relative;
-   display: block;
-   width: 100%;
+    position: relative;
+    display: block;
+    width: 100%;
   }
 
   .bar:before, .bar:after {
-   content: '';
-   height: 2px;
-   width: 0;
-   bottom: 1px;
-   position: absolute;
-   background: #5264AE;
-   transition: 0.2s ease all;
-   -moz-transition: 0.2s ease all;
-   -webkit-transition: 0.2s ease all;
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 0;
+    position: absolute;
+    background: linear-gradient(to right, #6366f1, #a855f7);
+    transition: 0.2s ease all;
   }
 
   .bar:before {
-   left: 50%;
-   
+    left: 50%;
   }
 
   .bar:after {
-   right: 50%;
+    right: 50%;
   }
 
   .input:focus ~ .bar:before, .input:focus ~ .bar:after {
-   width: 50%;
+    width: 50%;
   }
 
   .highlight {
-   position: absolute;
-   height: 60%;
-   width: 50%;
-   top: 25%;
-   left: 0;
-   pointer-events: none;
-   opacity: 0.5;
+    position: absolute;
+    height: 60%;
+    width: 50%;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .input:focus ~ .highlight {
+    animation: inputHighlighter 0.3s ease;
   }
 
   @media (max-width: 640px) {
@@ -112,7 +118,7 @@ const StyledWrapper = styled.div`
     }
     
     label {
-      font-size: 16px;
+      font-size: 14px;
     }
     
     .input:focus ~ label, .input:valid ~ label {
@@ -120,17 +126,13 @@ const StyledWrapper = styled.div`
     }
   }
 
-  .input:focus ~ .highlight {
-   animation: inputHighlighter 0.3s ease;
-  }
-
   @keyframes inputHighlighter {
-   from {
-    background: #5264AE;
-   }
-
-   to {
-    width: 0;
-    background: transparent;
-   }
-  }`;
+    from {
+      background: linear-gradient(to right, #6366f1, #a855f7);
+    }
+    to {
+      width: 0;
+      background: transparent;
+    }
+  }
+`;

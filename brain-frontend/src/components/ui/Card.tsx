@@ -1,141 +1,3 @@
-// import React from "react";
-// import TweetEmbed from "react-tweet-embed";
-// import { Plusicon } from "../../icons/Plusicon";
-// import { Shareicon } from "../../icons/Shareicon";
-// import { Deleteicon } from "../../icons/Deleteicon";
-
-// interface CardProps {
-//   title: string;
-//   type: "youtube" | "tweet";
-//   url: string;
-// }
-
-// export function Card({ title, type, url }: CardProps) {
-//   const getYouTubeEmbedUrl = (url: string) => {
-//     const videoId = url.includes("youtu.be/")
-//       ? url.split("youtu.be/")[1]?.split("?")[0]
-//       : url.split("v=")[1]?.split("&")[0];
-//     return videoId ? `https://www.youtube.com/embed/${videoId}` : "";
-//   };
-
-//   const getTweetId = (url: string) => {
-//     const match = url.match(/status\/(\d+)/);
-//     return match ? match[1] : "";
-//   };
-
-//   return (
-//     <div className="m-2 rounded-3xl w-72 shadow-2xl border-gray-400 border bg-white">
-//       <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
-//         <div className="flex gap-4 pl-2 justify-center items-center text-md">
-//           <div className="text-gray-500">
-//             <Plusicon size="medium" />
-//           </div>
-//           {title}
-//         </div>
-//         <div className="flex gap-4 pr-2 text-gray-500 justify-center items-center">
-//           <div>
-//             <Shareicon size="medium" />
-//           </div>
-//           <div>
-//             <Deleteicon size="medium" />
-//           </div>
-//         </div>
-//       </div>
-      
-//       {type === "youtube" && (
-//         <div className="w-72 h-40 pr-2">
-//           <iframe
-//             className="w-full h-full pl-1.5"
-//             src={getYouTubeEmbedUrl(url)}
-//             title="YouTube video player"
-//             frameBorder="0"
-//             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-//             allowFullScreen
-//           ></iframe>
-//         </div>
-//       )}
-      
-//       {type === "tweet" && (
-
-//       )}
-//       <TweetEmbed tweetId={getTweetId(url)} />
-      
-//     </div>
-//   );
-// }
-
-// export default Card;
-// import React from "react";
-// import TweetEmbed from "react-tweet-embed";
-// import { Plusicon } from "../../icons/Plusicon";
-// import { Shareicon } from "../../icons/Shareicon";
-// import { Deleteicon } from "../../icons/Deleteicon";
-
-// interface CardProps {
-//   title: string;
-//   type: "youtube" | "tweet";
-//   url: string;
-  
-// }
-
-// export function Card({ title, type, url }: CardProps) {
-//   // console.log(type)
-//   const getYouTubeEmbedUrl = (url: string) => {
-//     const videoId = url.includes("youtu.be/") 
-//       ? url.split("youtu.be/")[1]?.split("?")[0] 
-//       : url.split("v=")[1]?.split("&")[0];
-//     return videoId ? `https://www.youtube.com/embed/${videoId}` : "";
-//   };
-
-//   const getTweetId = (url: string) => {
-//     const match = url.match(/status\/(\d+)/);
-//     return match ? match[1] : "";
-//   };
-
-//   // console.log("URL:", url); // Log to check the value of url
-//   // console.log("Tweet ID:", getTweetId(url)); // Log to check if Tweet ID is extracted
-
-//   return (
-//     <div className="m-2 rounded-3xl w-72 h-90 shadow-2xl border-gray-400 border bg-white">
-//       <div className="flex gap-2 p-2 items-center justify-between h-10 w-72">
-//         <div className="flex gap-4 pl-2 justify-center items-center text-md">
-//           <div className="text-gray-500">
-//             <Plusicon size="medium" />
-//           </div>
-//           {title}
-//         </div>
-//         <div className="flex gap-4 pr-2 text-gray-500 justify-center items-center">
-//           <div>
-//             <Shareicon size="medium" />
-//           </div>
-//           <div>
-//             <Deleteicon size="medium" />
-//           </div>
-//         </div>
-//       </div>
-
-//       {type === "youtube" && (
-//         <div className="w-72 h-40 pr-2">
-//           <iframe
-//             className="w-full h-full pl-1.5"
-//             src={getYouTubeEmbedUrl(url)}
-//             title="YouTube video player"
-//             frameBorder="0"
-//             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-//             allowFullScreen
-//           ></iframe>
-//         </div>
-//       )}
-
-//       {type === "tweet" && getTweetId(url) && (
-//         <TweetEmbed tweetId={getTweetId(url)} />
-//       )}
-//     </div>
-//   );
-// }
-
-// export default Card;
-
 import React from "react";
 import TweetEmbed from "react-tweet-embed";
 import { Plusicon } from "../../icons/Plusicon";
@@ -165,28 +27,28 @@ export function Card({ title, type, url, description }: CardProps) {
   };
 
   return (
-    <div className="m-2 rounded-3xl w-full shadow-2xl border-gray-400 border bg-white">
-      <div className="flex gap-2 p-2 items-center justify-between h-10 w-full">
-        <div className="flex gap-4 pl-2 justify-center items-center text-md">
-          <div className="text-gray-500">
+    <div className="m-2 rounded-2xl w-full bg-white shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden hover:border-indigo-100">
+      <div className="flex gap-2 p-3 items-center justify-between border-b border-gray-50">
+        <div className="flex gap-3 items-center text-md">
+          <div className="text-indigo-500 hover:text-indigo-600 transition-colors cursor-pointer">
             <Plusicon size="medium" />
           </div>
-          {title}
+          <span className="font-medium text-gray-700">{title}</span>
         </div>
-        <div className="flex gap-4 pr-2 text-gray-500 justify-center items-center">
-          <div>
+        <div className="flex gap-3 text-gray-400">
+          <div className="hover:text-indigo-500 transition-colors cursor-pointer">
             <Shareicon size="medium" />
           </div>
-          <div>
+          <div className="hover:text-red-500 transition-colors cursor-pointer">
             <Deleteicon size="medium" />
           </div>
         </div>
       </div>
 
       {type === "youtube" && url && (
-        <div className="w-full aspect-video pr-2">
+        <div className="w-full h-52 p-2">
           <iframe
-            className="w-full h-full pl-1.5 rounded-lg"
+            className="w-full h-full rounded-xl shadow-sm bg-gray-50"
             src={getYouTubeEmbedUrl(url)}
             title="YouTube video player"
             frameBorder="0"
@@ -197,14 +59,22 @@ export function Card({ title, type, url, description }: CardProps) {
       )}
 
       {type === "tweet" && url && getTweetId(url) && (
-        <div className="w-full overflow-hidden">
-          <TweetEmbed tweetId={getTweetId(url)} />
+        <div className="w-full overflow-hidden p-2">
+          <div className="rounded-xl overflow-hidden shadow-sm">
+            <TweetEmbed tweetId={getTweetId(url)} />
+          </div>
         </div>
       )}
-
-      {description && (
-        <div className="p-4">
-          <p className="text-gray-700 break-words">{description}</p>
+      
+      {type === "youtube" && description && (
+        <div className="p-4 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 border-t border-gray-100">
+          <p className="text-gray-600 break-words text-sm leading-relaxed line-clamp-2">{description}</p>
+        </div>
+      )}
+      
+      {type === "tweet" && description && (
+        <div className="px-4 py-3 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 border-t border-gray-100">
+          <p className="text-gray-600 break-words text-sm leading-relaxed line-clamp-2">{description}</p>
         </div>
       )}
     </div>

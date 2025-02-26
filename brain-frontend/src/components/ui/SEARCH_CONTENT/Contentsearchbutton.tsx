@@ -43,7 +43,7 @@ const StyledWrapper = styled.div`
     left: 0;
     display: block;
     border-radius: 50px;
-    background: #DDA0DD;
+    background: #6366f1;
     width: 45px;
     height: 45px;
     transition: all 0.3s ease;
@@ -55,7 +55,7 @@ const StyledWrapper = styled.div`
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 0.05em;
-    color: #234567;
+    color: white;
   }
 
   .cta svg {
@@ -63,22 +63,38 @@ const StyledWrapper = styled.div`
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: #234567;
+    stroke: white;
     stroke-width: 2;
     transition: all 0.3s ease;
   }
 
   .cta:hover:before {
     width: 100%;
-    background: #DDA0DD;
+    background: linear-gradient(to right, #6366f1, #a855f7);
   }
 
   .cta:hover svg {
-    transform: translateX(3px); /* Slight movement effect */
+    transform: translateX(5px);
   }
 
   .cta:active {
     transform: scale(0.95);
   }
-`;
 
+  .cta::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  .cta:hover::after {
+    opacity: 1;
+  }
+`;

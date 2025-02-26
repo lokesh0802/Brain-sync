@@ -49,11 +49,11 @@ function Dashboardrender() {
           />
         )}
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <div className={`p-4 min-h-screen bg-[#e3e2e2] flex-1 transition-all duration-300
+        <div className={`p-4 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex-1 transition-all duration-300
           ${sidebarOpen ? 'md:ml-72' : 'md:ml-0'}`}>
           {isMobile && (
             <button 
-              className="mb-4 p-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
+              className="mb-4 p-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-md hover:from-indigo-600 hover:to-purple-700 transition-all shadow-md"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               ☰ Menu
@@ -146,24 +146,24 @@ const StyledWrapper = styled.div`
   }
 
   .search button[type="submit"] {
-    background-color: purple;
+    background: linear-gradient(to right, #6366f1, #a855f7);
     border: none;
     color: #fff;
     cursor: pointer;
     padding: 10px 20px;
     border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    transition: .3s ease;
+    transition: all 0.3s ease;
   }
 
   .search button[type="submit"]:hover {
-    transform: scale(1.1);
-    color: rgb(255, 255, 255);
-    background-color: purple;
+    background: linear-gradient(to right, #4f46e5, #9333ea);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15);
   }`;
 
 export default Dashboardrender;

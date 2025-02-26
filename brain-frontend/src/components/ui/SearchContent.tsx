@@ -95,18 +95,26 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
   return (
     <div>
       {opensearch && (
-        <div className="fixed inset-0 bg-gray-900/95 z-50 flex justify-center items-start sm:items-center p-2 sm:p-4 overflow-y-auto">
-          <div className="bg-white shadow-2xl p-4 sm:p-6 h-auto rounded-2xl w-full max-w-3xl flex flex-col items-center transition-all duration-300 my-2 sm:my-0">
-            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mb-4 gap-3 w-full">
-              <div className="flex-grow">
-                <ContentSearchBar value={searchQuery} onChange={setSearchQuery} />
-              </div>
-              <div className="flex items-center justify-end gap-3">
-                <ContentSearchButton onClick={handleSearch} />
-                <div className="cursor-pointer hover:text-red-500" onClick={onsearchclose}>
-                  <Close size="large" />
+        <div className="fixed inset-0 bg-gray-900/95 backdrop-blur-sm z-50 flex justify-center items-start sm:items-center p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-white/95 shadow-2xl p-4 sm:p-6 h-auto rounded-2xl w-full max-w-3xl flex flex-col items-center transition-all duration-300 my-2 sm:my-0 border border-gray-100">
+            <div className="w-full">
+              <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mb-6 gap-3">
+                <div className="flex-grow">
+                  <ContentSearchBar value={searchQuery} onChange={setSearchQuery} />
+                </div>
+                <div className="flex items-center justify-end gap-3">
+                  <ContentSearchButton onClick={handleSearch} />
+                  <button 
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors"
+                    onClick={onsearchclose}
+                  >
+                    <div className="text-gray-600 hover:text-gray-800 transform hover:rotate-90 transition-all duration-300">
+                      <Close size="large" />
+                    </div>
+                  </button>
                 </div>
               </div>
+              <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-6" />
             </div>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full">
               {loading && <div className="flex items-center h-40 justify-center"><SearchLoader /></div>}
@@ -116,9 +124,11 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
                 </div>
               )}
               {!loading && aicontentfound && (
-                <div className="w-full md:w-1/2 max-h-[450px] border-t md:border-t-0 md:border-l border-gray-300 md:pl-4 mt-4 md:mt-0 pt-4 md:pt-0">
-                  <h2 className="text-lg font-semibold mb-3">Extra Data on Internet</h2>
-                  <div className="overflow-y-auto pr-2 h-[calc(100%-2rem)] scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-200">
+                <div className="w-full md:w-1/2 max-h-[450px] border-t md:border-t-0 md:border-l border-gray-200 md:pl-6 mt-4 md:mt-0 pt-4 md:pt-0">
+                  <h2 className="text-lg font-semibold mb-3 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    Extra Data on Internet
+                  </h2>
+                  <div className="overflow-y-auto pr-2 h-[calc(100%-2rem)] scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-gray-100 rounded-lg">
                     <p className="text-gray-700 leading-relaxed">{searchanalysis[0]?.analysis}</p>
                   </div>
                 </div>
