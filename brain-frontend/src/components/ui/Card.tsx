@@ -14,9 +14,10 @@ interface CardProps {
   url?: string;
   description?: string;
   icon?: React.ReactNode;
+  onDelete?: () => void;
 }
 
-export function Card({ title, type, url, description, icon }: CardProps) {
+export function Card({ title, type, url, description, icon, onDelete }: CardProps) {
   const getYouTubeEmbedUrl = (url: string) => {
     if (!url) return "";
     const videoId = url.includes("youtu.be/") 
@@ -51,7 +52,10 @@ export function Card({ title, type, url, description, icon }: CardProps) {
           {/* <div className="hover:text-indigo-500 transition-colors cursor-pointer">
             <Shareicon size="medium" />
           </div> */}
-          <div className="hover:text-red-500 transition-colors cursor-pointer">
+          <div 
+            className="hover:text-red-500 transition-colors cursor-pointer"
+            onClick={onDelete}
+          >
             <Deleteicon size="medium" />
           </div>
         </div>

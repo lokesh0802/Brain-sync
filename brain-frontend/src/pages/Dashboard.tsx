@@ -32,9 +32,9 @@ function Dashboardrender() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  const contents: { type: "youtube" | "tweet" | "project"; title: string; link?: string; description: string; icon?: React.ReactNode }[] = useContent();
+  const { content, deleteContent } = useContent();
 
-  console.log('Contents from useContent:', contents);
+  console.log('Contents from useContent:', content);
   function setvalue(){
     setSearchOpen(true);
   }
@@ -111,15 +111,16 @@ function Dashboardrender() {
 
           {/* Content Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {contents
-              .filter(content => selectedType === "all" || content.type === selectedType)
-              .map((content, index) => (
+            {content
+              .filter(item => selectedType === "all" || item.type === selectedType)
+              .map((item) => (
               <Card
-                key={index}
-                type={content.type}
-                title={content.title}
-                url={content.link}
-                description={content.description}
+                key={item._id}
+                type={item.type}
+                title={item.title}
+                url={item.link}
+                description={item.description}
+                onDelete={() => deleteContent(item._id)}
               />
             ))}
             {/* <Card

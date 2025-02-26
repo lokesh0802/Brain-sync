@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 interface Content {
+  _id: string;
   type: "youtube" | "tweet" | "project";
   title: string;
   link?: string;
@@ -10,8 +11,24 @@ interface Content {
   icon?: React.ReactNode;
 }
 
-export function useContent():Content[] {
-  const [content, setContent] = useState([]);
+export function useContent() {
+  const [content, setContent] = useState<Content[]>([]);
+
+  const deleteContent = async (contentId: string) => {
+    try {
+      const token = localStorage.getItem("authorization");
+      await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+        data: { contentId },
+        headers: {
+          authorization: token,
+        },
+      });
+      // Refresh content after deletion
+      fetchContent();
+    } catch (err) {
+      console.error("Error deleting content:", err);
+    }
+  };
   const fetchContent = async () => {
     try {
       const token = localStorage.getItem("authorization");
@@ -47,5 +64,5 @@ export function useContent():Content[] {
     // fetchContent();
   }, []); 
   // console.log(content)
-  return content;
+  return { content, deleteContent };
 }

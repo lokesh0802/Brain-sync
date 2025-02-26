@@ -3,6 +3,7 @@ import { ContentSearchBar } from "./SEARCH_CONTENT/ContentSearchBar";
 import { Card } from "./Card";
 import { ContentSearchButton } from "./SEARCH_CONTENT/Contentsearchbutton";
 import { useState } from "react";
+import { useContent } from "../../hooks/useContent";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { SearchLoader } from "./SEARCH_CONTENT/SearchLoader";
@@ -12,6 +13,7 @@ interface SearchContentProps {
   onsearchclose: () => void;
 }
 interface Content {
+  _id: string;
   type: "youtube" | "tweet" | "project";
   title: string;
   link?: string;
@@ -31,6 +33,7 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
   const [aicontentfound, setAicontentFound] = useState(false);
   const [searchanalysis, setSearchAnalysis] = useState<SearchContentProps[]>([]);
   const [loading, setLoading] = useState(false);
+  const { deleteContent } = useContent();
   
 
 
@@ -131,7 +134,13 @@ export function SearchContent({ opensearch, onsearchclose }: SearchContentProps)
                     type={searchcontent[0].type} 
                     title={searchcontent[0]?.title} 
                     url={searchcontent[0]?.link}
-                    description={searchcontent[0]?.description} 
+                    description={searchcontent[0]?.description}
+                    onDelete={() => {
+                      if (searchcontent[0]?._id) {
+                        deleteContent(searchcontent[0]._id);
+                        setContentFound(false);
+                      }
+                    }}
                   />
                 </div>
               )}
