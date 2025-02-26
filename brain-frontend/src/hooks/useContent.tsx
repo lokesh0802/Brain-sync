@@ -5,6 +5,7 @@ interface Content {
   type: "youtube" | "tweet";
   title: string;
   link: string;
+  description: string;
 }
 
 export function useContent():Content[] {
@@ -24,6 +25,8 @@ export function useContent():Content[] {
 
         // console.log(response);
         setContent(response.data.contents); 
+        console.log("lokesh")
+        console.log(response.data.contents)
         
 
       } catch (err) {

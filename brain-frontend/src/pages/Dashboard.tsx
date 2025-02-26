@@ -29,7 +29,8 @@ function Dashboardrender() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-  const contents: { type: "youtube" | "tweet"; title: string; link: string }[] = useContent();
+  
+  const contents: { type: "youtube" | "tweet"; title: string; link: string; description: string }[] = useContent();
 
   console.log('Contents from useContent:', contents);
   function setvalue(){
@@ -99,6 +100,7 @@ function Dashboardrender() {
                 type={content.type}
                 title={content.title}
                 url={content.link}
+                description={content.description}
               />
             ))}
             {/* <Card

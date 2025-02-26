@@ -55,6 +55,7 @@ export function Card({ title, type, url, description }: CardProps) {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           ></iframe>
+          
         </div>
       )}
 
@@ -63,6 +64,7 @@ export function Card({ title, type, url, description }: CardProps) {
           <div className="rounded-xl overflow-hidden shadow-sm">
             <TweetEmbed tweetId={getTweetId(url)} />
           </div>
+          
         </div>
       )}
       
