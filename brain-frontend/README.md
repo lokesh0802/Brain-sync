@@ -39,7 +39,7 @@ npm install
 3. Configure environment variables:
 Create a `.env` file with:
 ```
-VITE_BACKEND_URL=http://localhost:3000
+VITE_BACKEND_URL=https://brain-sync-server-production.up.railway.app
 ```
 
 4. Start development server:

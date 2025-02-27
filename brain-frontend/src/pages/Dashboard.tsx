@@ -83,7 +83,7 @@ function Dashboardrender() {
               text="Share"
               onClick={() => async()=>{
                 console.log("share")
-                const response=await axios.post("http://localhost:3000/api/v1/brain/share", {
+                const response=await axios.post("https://brain-sync-server-production.up.railway.app/api/v1/brain/share", {
                   share:"true"
                 },{
                   headers:{

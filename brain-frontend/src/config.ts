@@ -1,1 +1,1 @@
-export const BACKEND_URL="http://localhost:3000"
+export const BACKEND_URL="https://brain-sync-server-production.up.railway.app"
