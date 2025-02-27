@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import Pattern from "../components/Loader/Background";
 
 import axios from "axios";
