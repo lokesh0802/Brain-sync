@@ -7,7 +7,7 @@ interface SidebaritemsProps {
     isSelected?: boolean;
 }
 
-export const Sidebaritems = ({text, icon, onClick, isSelected}: SidebaritemsProps) => {
+export const Sidebaritems = ({text, icon, onClick, }: SidebaritemsProps) => {
     return (
         <div>
 
