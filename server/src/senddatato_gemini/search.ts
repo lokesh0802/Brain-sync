@@ -2,8 +2,8 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 import { generateEmbeddings } from "../generate_vector/generateembedding";
 
 const client = new QdrantClient({
-  url: "https://ca9fe044-08b1-4749-b85d-01b3973f4f9b.us-east4-0.gcp.cloud.qdrant.io:6333",
-  apiKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIiwiZXhwIjoxNzQ3MjAyOTE2fQ.0ItvpUUH1F97VcbES3uvj5YwrOf99YzG-kV8nlmRSpc",
+  url: "https://1553558d-e717-4698-b415-3c96d3b78030.us-west-2-0.aws.cloud.qdrant.io",
+  apiKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.BXKR8ns4agndmsCK5Hbqdt_tuNtAOiMHUUIWLiEFR2c",
 });
 
 export async function searchDocuments(query: string) {
