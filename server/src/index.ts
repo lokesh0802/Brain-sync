@@ -16,9 +16,7 @@ app.use(express.json());
 app.use(cors());
 async function connectDatabase() {
   try {
-    const database = await mongoose.connect(
-      "mongodb+srv://lokesh080502:LoKedatabase@cluster0.1vw3m.mongodb.net/brainly"
-    );
+    const database =await mongoose.connect(process.env.MONGODB_URL);
     console.log("Database connected successfully");
   } catch (error) {
     console.error("Database connection failed:", error);
